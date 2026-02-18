@@ -1,0 +1,141 @@
+{
+    "Metadata": {
+        "title": "versedroid. — Android Modding Wiki",
+        "description": "Learn the art of Android modding — from unlocking bootloader to custom ROM, with complete guides and the right tools."
+    },
+    "Navbar": {
+        "faq": "FAQ",
+        "tools": "Tools",
+        "blog": "Blog",
+        "language": "Language"
+    },
+    "Footer": {
+        "faqTitle": "FAQ",
+        "blogTitle": "Blog",
+        "socialTitle": "Social",
+        "latestPosts": "Latest",
+        "popularPosts": "Popular",
+        "copyright": "© 2026 versedroid. All rights reserved."
+    },
+    "Hero": {
+        "title1": "Unlock the Full Potential",
+        "title2": "of Your Android.",
+        "subtitle": "Learn the art of Android modding — from unlocking bootloader to custom ROM, with complete guides and the right tools.",
+        "ctaLearn": "Start Learning",
+        "ctaTools": "View Tools"
+    },
+    "WhatIsOprek": {
+        "title": "What Is Android Modding?",
+        "description": "Android modding is the process of modifying your Android device beyond factory limitations. From unlocking the bootloader, gaining root access, to replacing the operating system with a custom ROM — all aimed at giving you full control over the device you own.",
+        "highlight": "Modding isn't just technical. It's about freedom."
+    },
+    "BeforeAfter": {
+        "title": "Why Mod?",
+        "beforeTitle": "BEFORE MODDING",
+        "afterTitle": "AFTER MODDING",
+        "before1": "Bloatware piling up",
+        "before2": "Battery draining fast",
+        "before3": "Slow performance",
+        "before4": "Limited features",
+        "before5": "No more updates",
+        "after1": "Clean without bloat",
+        "after2": "Long battery life",
+        "after3": "Optimal performance",
+        "after4": "Unlimited features",
+        "after5": "Continuous community updates"
+    },
+    "OprekTypes": {
+        "title": "Types of Modding",
+        "ublTitle": "Unlock Bootloader",
+        "ublDesc": "The first step to unlock modification access on your Android device.",
+        "rootTitle": "Root",
+        "rootDesc": "Get full access to the Android operating system.",
+        "romTitle": "Custom ROM",
+        "romDesc": "Replace the stock Android OS with a better system.",
+        "kernelTitle": "Custom Kernel",
+        "kernelDesc": "Optimize hardware for the best performance and battery life.",
+        "readMore": "Read →"
+    },
+    "FaqIndex": {
+        "title": "FAQ — Modding Guide",
+        "subtitle": "Everything you need to know about Android modding, from basics to advanced."
+    },
+    "FaqDetail": {
+        "categoryBasic": "Basics",
+        "categoryTopics": "Topics",
+        "apaItuOprekTitle": "What is Modding?",
+        "apaItuOprekDesc": "Introduction to Android modding and its benefits.",
+        "istilahTitle": "Modding Glossary",
+        "istilahDesc": "Key terms and vocabulary in Android modding.",
+        "ublTitle": "Unlock Bootloader",
+        "ublDesc": "The first step to unlock modification access on your Android device.",
+        "rootTitle": "Root",
+        "rootDesc": "Get full access to the Android operating system.",
+        "romTitle": "Custom ROM",
+        "romDesc": "Replace the stock Android OS with a better system.",
+        "kernelTitle": "Custom Kernel",
+        "kernelDesc": "Optimize hardware for the best performance and battery life.",
+        "recoveryTitle": "Custom Recovery",
+        "recoveryDesc": "Advanced recovery mode for flashing and system backup.",
+        "magiskTitle": "Magisk",
+        "magiskDesc": "Systemless root solution with modules and root hiding.",
+        "readMore": "Read →"
+    },
+    "ToolsIndex": {
+        "title": "Tools — Modding Toolkit",
+        "subtitle": "Software and tools needed for Android modding.",
+        "remoteTools": "Remote Tools",
+        "androidTools": "Android Tools"
+    },
+    "ToolsDetail": {
+        "remoteTools": "Remote Tools",
+        "androidTools": "Android Tools",
+        "platformToolsTitle": "Platform Tools (ADB & Fastboot)",
+        "platformToolsDesc": "Command-line tools for communicating with Android devices via USB.",
+        "scrcpyTitle": "Scrcpy",
+        "scrcpyDesc": "Display and control your Android screen from PC, via USB or wireless.",
+        "magiskAppTitle": "Magisk App",
+        "magiskAppDesc": "Systemless root for Android, manage modules and hide root.",
+        "lsposedTitle": "LSPosed",
+        "lsposedDesc": "Modern Xposed framework for system modifications without changing partitions.",
+        "hostTab": "Host",
+        "clientTab": "Client",
+        "readMore": "Read →"
+    },
+    "BlogIndex": {
+        "title": "Blog",
+        "subtitle": "Tutorials, tips, and news about Android modding.",
+        "all": "All",
+        "tutorial": "Tutorial",
+        "news": "News",
+        "tips": "Tips & Tricks",
+        "featured": "FEATURED",
+        "readMore": "Read more",
+        "minRead": "min read"
+    },
+    "BlogPosts": {
+        "post1Title": "Complete Guide: Unlock Bootloader 2026",
+        "post1Excerpt": "Detailed bootloader unlock steps for all popular brands: Xiaomi, Samsung, Google Pixel, and more.",
+        "post2Title": "Safe Android Root Tips with Magisk",
+        "post2Excerpt": "A safe guide to rooting Android with Magisk, including tips on hiding root and configuring DenyList.",
+        "post3Title": "Best Custom ROMs Review 2026",
+        "post3Excerpt": "Comprehensive comparison of LineageOS 22, Pixel Experience Plus, crDroid, and other popular ROMs.",
+        "post4Title": "Battery Optimization with Custom Kernel",
+        "post4Excerpt": "Tips and tricks for battery optimization using custom kernel: governor, I/O scheduler, and deep sleep.",
+        "post5Title": "Android 16: New Features for the Modding Community",
+        "post5Excerpt": "What changed in Android 16 for the modding community and how to deal with it."
+    },
+    "BlogDetail": {
+        "shareTitle": "Share",
+        "relatedPosts": "Related Articles",
+        "copyLink": "Copy Link",
+        "copied": "Copied!"
+    },
+    "Common": {
+        "prevArticle": "← Previous Article",
+        "nextArticle": "Next Article →",
+        "onThisPage": "On This Page",
+        "home": "Home",
+        "backToTop": "Back to top"
+    }
+}

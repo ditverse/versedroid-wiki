@@ -1,0 +1,141 @@
+{
+    "Metadata": {
+        "title": "versedroid. — Wiki Oprek Android",
+        "description": "Pelajari seni oprek Android — dari unlock bootloader hingga custom ROM, dengan panduan lengkap dan tools yang tepat."
+    },
+    "Navbar": {
+        "faq": "FAQ",
+        "tools": "Tools",
+        "blog": "Blog",
+        "language": "Bahasa"
+    },
+    "Footer": {
+        "faqTitle": "FAQ",
+        "blogTitle": "Blog",
+        "socialTitle": "Social",
+        "latestPosts": "Terbaru",
+        "popularPosts": "Popular",
+        "copyright": "© 2026 versedroid. All rights reserved."
+    },
+    "Hero": {
+        "title1": "Unlock the Full Potential",
+        "title2": "of Your Android.",
+        "subtitle": "Pelajari seni oprek Android — dari unlock bootloader hingga custom ROM, dengan panduan lengkap dan tools yang tepat.",
+        "ctaLearn": "Mulai Belajar",
+        "ctaTools": "Lihat Tools"
+    },
+    "WhatIsOprek": {
+        "title": "Apa Itu Oprek?",
+        "description": "Oprek Android adalah proses memodifikasi perangkat Android kamu melampaui batasan bawaan pabrik. Mulai dari membuka kunci bootloader, mendapatkan akses root, hingga mengganti sistem operasi dengan custom ROM — semuanya bertujuan untuk memberikan kontrol penuh atas perangkat yang kamu miliki.",
+        "highlight": "Oprek bukan sekadar teknikal. Ini tentang kebebasan."
+    },
+    "BeforeAfter": {
+        "title": "Kenapa Oprek?",
+        "beforeTitle": "BEFORE OPREK",
+        "afterTitle": "AFTER OPREK",
+        "before1": "Bloatware menumpuk",
+        "before2": "Baterai boros",
+        "before3": "Performa lambat",
+        "before4": "Fitur terbatas",
+        "before5": "Tidak ada update",
+        "after1": "Bersih tanpa bloat",
+        "after2": "Baterai awet",
+        "after3": "Performa optimal",
+        "after4": "Fitur tak terbatas",
+        "after5": "Update terus dari komunitas"
+    },
+    "OprekTypes": {
+        "title": "Jenis Oprek",
+        "ublTitle": "Unlock Bootloader",
+        "ublDesc": "Langkah pertama membuka akses modifikasi perangkat Android kamu.",
+        "rootTitle": "Root",
+        "rootDesc": "Dapatkan akses penuh ke sistem operasi Android.",
+        "romTitle": "Custom ROM",
+        "romDesc": "Ganti OS Android bawaan dengan sistem yang lebih baik.",
+        "kernelTitle": "Custom Kernel",
+        "kernelDesc": "Optimasi hardware untuk performa dan baterai terbaik.",
+        "readMore": "Baca →"
+    },
+    "FaqIndex": {
+        "title": "FAQ — Panduan Oprek",
+        "subtitle": "Semua yang perlu kamu tahu tentang oprek Android, dari dasar hingga advanced."
+    },
+    "FaqDetail": {
+        "categoryBasic": "Dasar",
+        "categoryTopics": "Topik",
+        "apaItuOprekTitle": "Apa itu Oprek?",
+        "apaItuOprekDesc": "Pengenalan dunia oprek Android dan manfaatnya.",
+        "istilahTitle": "Istilah Oprek",
+        "istilahDesc": "Glosarium istilah-istilah penting dalam oprek Android.",
+        "ublTitle": "Unlock Bootloader",
+        "ublDesc": "Langkah pertama membuka akses modifikasi perangkat Android.",
+        "rootTitle": "Root",
+        "rootDesc": "Dapatkan akses penuh ke sistem operasi Android.",
+        "romTitle": "Custom ROM",
+        "romDesc": "Ganti OS Android bawaan dengan sistem yang lebih baik.",
+        "kernelTitle": "Custom Kernel",
+        "kernelDesc": "Optimasi hardware untuk performa dan baterai terbaik.",
+        "recoveryTitle": "Custom Recovery",
+        "recoveryDesc": "Recovery mode advanced untuk flash dan backup sistem.",
+        "magiskTitle": "Magisk",
+        "magiskDesc": "Solusi root systemless dengan fitur modul dan hide root.",
+        "readMore": "Baca →"
+    },
+    "ToolsIndex": {
+        "title": "Tools — Peralatan Oprek",
+        "subtitle": "Software dan tools yang dibutuhkan untuk proses oprek Android.",
+        "remoteTools": "Remote Tools",
+        "androidTools": "Android Tools"
+    },
+    "ToolsDetail": {
+        "remoteTools": "Remote Tools",
+        "androidTools": "Android Tools",
+        "platformToolsTitle": "Platform Tools (ADB & Fastboot)",
+        "platformToolsDesc": "Command-line tools untuk komunikasi dengan perangkat Android via USB.",
+        "scrcpyTitle": "Scrcpy",
+        "scrcpyDesc": "Tampilkan dan kontrol layar Android dari PC, via USB atau wireless.",
+        "magiskAppTitle": "Magisk App",
+        "magiskAppDesc": "Aplikasi root systemless Android, manage modul dan hide root.",
+        "lsposedTitle": "LSPosed",
+        "lsposedDesc": "Framework Xposed modern untuk modifikasi sistem tanpa mengubah partisi.",
+        "hostTab": "Host",
+        "clientTab": "Client",
+        "readMore": "Baca →"
+    },
+    "BlogIndex": {
+        "title": "Blog",
+        "subtitle": "Tutorial, tips, dan berita seputar oprek Android.",
+        "all": "Semua",
+        "tutorial": "Tutorial",
+        "news": "News",
+        "tips": "Tips & Tricks",
+        "featured": "FEATURED",
+        "readMore": "Baca selengkapnya",
+        "minRead": "min baca"
+    },
+    "BlogPosts": {
+        "post1Title": "Panduan Lengkap Unlock Bootloader 2026",
+        "post1Excerpt": "Langkah-langkah detail unlock bootloader untuk semua brand populer: Xiaomi, Samsung, Google Pixel, dan lainnya.",
+        "post2Title": "Tips Aman Root Android dengan Magisk",
+        "post2Excerpt": "Panduan root Android yang aman menggunakan Magisk, termasuk tips hide root dan konfigurasi DenyList.",
+        "post3Title": "Review Custom ROM Terbaik 2026",
+        "post3Excerpt": "Perbandingan lengkap LineageOS 22, Pixel Experience Plus, crDroid, dan ROM populer lainnya.",
+        "post4Title": "Optimasi Baterai dengan Custom Kernel",
+        "post4Excerpt": "Tips dan trik mengoptimasi baterai menggunakan custom kernel: governor, I/O scheduler, dan deep sleep.",
+        "post5Title": "Android 16: Fitur Baru untuk Komunitas Oprek",
+        "post5Excerpt": "Apa yang berubah di Android 16 untuk komunitas modding dan bagaimana mengatasinya."
+    },
+    "BlogDetail": {
+        "shareTitle": "Bagikan",
+        "relatedPosts": "Artikel Terkait",
+        "copyLink": "Salin Link",
+        "copied": "Tersalin!"
+    },
+    "Common": {
+        "prevArticle": "← Artikel Sebelumnya",
+        "nextArticle": "Artikel Berikutnya →",
+        "onThisPage": "Di Halaman Ini",
+        "home": "Home",
+        "backToTop": "Kembali ke atas"
+    }
+}
