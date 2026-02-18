@@ -4,7 +4,8 @@ import { useTranslations } from "next-intl";
 import { usePathname, useRouter, Link } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { useState } from "react";
-import { Menu, Globe, X } from "lucide-react";
+import { Menu, Globe } from "lucide-react";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -66,8 +67,11 @@ export function Navbar() {
                     ))}
                 </div>
 
-                {/* Right side: Language + Mobile menu */}
+                {/* Right side: Theme toggle + Language + Mobile menu */}
                 <div className="flex items-center gap-2">
+                    {/* Theme Toggle */}
+                    <ThemeToggle />
+
                     {/* Language Switcher */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -146,6 +150,12 @@ export function Navbar() {
                                     </Link>
                                 ))}
                             </nav>
+
+                            {/* Theme toggle in mobile menu */}
+                            <div className="mt-4 flex items-center gap-3 rounded-lg px-4 py-3">
+                                <span className="text-sm text-vd-text-secondary">Theme</span>
+                                <ThemeToggle />
+                            </div>
                         </SheetContent>
                     </Sheet>
                 </div>

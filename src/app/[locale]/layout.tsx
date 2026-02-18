@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { plusJakarta, jetbrainsMono } from "@/lib/fonts";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { ThemeProvider } from "@/components/shared/theme-provider";
 
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({ locale }));
@@ -32,16 +33,20 @@ export default async function LocaleLayout({ children, params }: Props) {
     setRequestLocale(locale);
 
     return (
-        <html lang={locale} className="dark">
+        // suppressHydrationWarning prevents SSR/client mismatch when
+        // ThemeProvider adds "dark" or "light" class on the client
+        <html lang={locale} suppressHydrationWarning>
             <body
-                className={`${plusJakarta.variable} ${jetbrainsMono.variable} font-sans antialiased bg-vd-bg-primary text-vd-text-primary`}
+                className={`${plusJakarta.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground`}
             >
                 <NextIntlClientProvider>
-                    <div className="flex min-h-screen flex-col">
-                        <Navbar />
-                        <main className="flex-1">{children}</main>
-                        <Footer />
-                    </div>
+                    <ThemeProvider>
+                        <div className="flex min-h-screen flex-col">
+                            <Navbar />
+                            <main className="flex-1">{children}</main>
+                            <Footer />
+                        </div>
+                    </ThemeProvider>
                 </NextIntlClientProvider>
             </body>
         </html>

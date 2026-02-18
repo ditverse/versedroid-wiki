@@ -51,23 +51,35 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  /* Versedroid Custom Colors */
-  --color-vd-bg-primary: #0A0A0F;
-  --color-vd-bg-secondary: #12121A;
-  --color-vd-bg-tertiary: #1A1A27;
-  --color-vd-border: #2A2A3A;
-  --color-vd-text-primary: #EAEAF0;
-  --color-vd-text-secondary: #8888A0;
-  --color-vd-accent: #00E599;
-  --color-vd-danger: #FF4D6A;
-  --color-vd-info: #3B82F6;
-  --color-vd-warning: #F59E0B;
+  /* Versedroid Custom Colors — reference CSS vars so .light can override */
+  --color-vd-bg-primary: var(--vd-bg-primary);
+  --color-vd-bg-secondary: var(--vd-bg-secondary);
+  --color-vd-bg-tertiary: var(--vd-bg-tertiary);
+  --color-vd-border: var(--vd-border);
+  --color-vd-text-primary: var(--vd-text-primary);
+  --color-vd-text-secondary: var(--vd-text-secondary);
+  --color-vd-accent: var(--vd-accent);
+  --color-vd-danger: var(--vd-danger);
+  --color-vd-info: var(--vd-info);
+  --color-vd-warning: var(--vd-warning);
 }
 
 :root {
   --radius: 0.625rem;
 
-  /* Versedroid is dark-only — set dark values as default */
+  /* ── Versedroid vd-* tokens (dark mode default) ── */
+  --vd-bg-primary: #0A0A0F;
+  --vd-bg-secondary: #12121A;
+  --vd-bg-tertiary: #1A1A27;
+  --vd-border: #2A2A3A;
+  --vd-text-primary: #EAEAF0;
+  --vd-text-secondary: #8888A0;
+  --vd-accent: #00E599;
+  --vd-danger: #FF4D6A;
+  --vd-info: #3B82F6;
+  --vd-warning: #F59E0B;
+
+  /* ── shadcn tokens (dark mode default) ── */
   --background: #0A0A0F;
   --foreground: #EAEAF0;
   --card: #12121A;
@@ -101,6 +113,53 @@
   --sidebar-ring: #00E599;
 }
 
+/* ============================================================
+   Light Mode — Warm Slate (Paper-like)
+   Warm, paper-like palette using Stone/Warm Gray tones.
+   Applied when <html class="light"> is set by ThemeProvider.
+   ============================================================ */
+.light {
+  /* ── shadcn tokens ── */
+  --background: #F5F4F0;
+  --foreground: #1C1917;
+  --card: #FDFCF8;
+  --card-foreground: #1C1917;
+  --popover: #FDFCF8;
+  --popover-foreground: #1C1917;
+  --primary: #00B377;
+  --primary-foreground: #FAFAFA;
+  --secondary: #E7E5E4;
+  --secondary-foreground: #1C1917;
+  --muted: #F5F4F0;
+  --muted-foreground: #57534E;
+  --accent: #00B377;
+  --accent-foreground: #FAFAFA;
+  --destructive: #EF4444;
+  --border: #E2DDD5;
+  --input: #E2DDD5;
+  --ring: #00B377;
+  --sidebar: #F2EFE9;
+  --sidebar-foreground: #1C1917;
+  --sidebar-primary: #00B377;
+  --sidebar-primary-foreground: #FAFAFA;
+  --sidebar-accent: #E7E5E4;
+  --sidebar-accent-foreground: #1C1917;
+  --sidebar-border: #E2DDD5;
+  --sidebar-ring: #00B377;
+
+  /* ── vd-* tokens (Warm Slate) ── */
+  --vd-bg-primary: #F5F4F0;
+  --vd-bg-secondary: #FDFCF8;
+  --vd-bg-tertiary: #E7E5E4;
+  --vd-border: #E2DDD5;
+  --vd-text-primary: #1C1917;
+  --vd-text-secondary: #57534E;
+  --vd-accent: #00B377;
+  --vd-danger: #EF4444;
+  --vd-info: #0284C7;
+  --vd-warning: #B45309;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -110,20 +169,36 @@
     @apply bg-background text-foreground antialiased;
   }
 
-  /* Scrollbar */
+  /* Scrollbar — dark mode */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
+
   ::-webkit-scrollbar-track {
     background: #0A0A0F;
   }
+
   ::-webkit-scrollbar-thumb {
     background: #2A2A3A;
     border-radius: 3px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: #3A3A4A;
+  }
+
+  /* Scrollbar — light mode */
+  .light ::-webkit-scrollbar-track {
+    background: #EEF0F6;
+  }
+
+  .light ::-webkit-scrollbar-thumb {
+    background: #C8CCE0;
+  }
+
+  .light ::-webkit-scrollbar-thumb:hover {
+    background: #A8AECE;
   }
 }
 
@@ -131,23 +206,49 @@
    Animations
    ============================================================ */
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(32px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.8; }
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
 }
 
 @keyframes underline-slide {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .animate-fade-in {
@@ -165,12 +266,29 @@
 }
 
 /* Stagger delay utilities */
-.stagger-1 { animation-delay: 50ms; }
-.stagger-2 { animation-delay: 100ms; }
-.stagger-3 { animation-delay: 150ms; }
-.stagger-4 { animation-delay: 200ms; }
-.stagger-5 { animation-delay: 250ms; }
-.stagger-6 { animation-delay: 300ms; }
+.stagger-1 {
+  animation-delay: 50ms;
+}
+
+.stagger-2 {
+  animation-delay: 100ms;
+}
+
+.stagger-3 {
+  animation-delay: 150ms;
+}
+
+.stagger-4 {
+  animation-delay: 200ms;
+}
+
+.stagger-5 {
+  animation-delay: 250ms;
+}
+
+.stagger-6 {
+  animation-delay: 300ms;
+}
 
 /* ============================================================
    Callout Boxes
@@ -200,33 +318,62 @@
    ============================================================ */
 .accent-glow {
   box-shadow: 0 0 40px rgba(0, 229, 153, 0.15),
-              0 0 80px rgba(0, 229, 153, 0.08);
+    0 0 80px rgba(0, 229, 153, 0.08);
 }
 
 .accent-glow-strong {
   box-shadow: 0 0 20px rgba(0, 229, 153, 0.3),
-              0 0 60px rgba(0, 229, 153, 0.15),
-              0 0 100px rgba(0, 229, 153, 0.05);
+    0 0 60px rgba(0, 229, 153, 0.15),
+    0 0 100px rgba(0, 229, 153, 0.05);
 }
 
 /* ============================================================
    Prose / Content Styling
    ============================================================ */
-.prose-vd h1 { @apply text-3xl font-bold text-vd-text-primary mb-6; }
-.prose-vd h2 { @apply text-2xl font-bold text-vd-text-primary mt-10 mb-4; }
-.prose-vd h3 { @apply text-xl font-semibold text-vd-text-primary mt-8 mb-3; }
-.prose-vd p { @apply text-vd-text-secondary leading-relaxed mb-4; }
-.prose-vd ul { @apply list-disc pl-6 mb-4 text-vd-text-secondary; }
-.prose-vd ol { @apply list-decimal pl-6 mb-4 text-vd-text-secondary; }
-.prose-vd li { @apply mb-1; }
-.prose-vd a { @apply text-vd-accent hover:underline; }
-.prose-vd strong { @apply text-vd-text-primary font-semibold; }
+.prose-vd h1 {
+  @apply text-3xl font-bold text-vd-text-primary mb-6;
+}
+
+.prose-vd h2 {
+  @apply text-2xl font-bold text-vd-text-primary mt-10 mb-4;
+}
+
+.prose-vd h3 {
+  @apply text-xl font-semibold text-vd-text-primary mt-8 mb-3;
+}
+
+.prose-vd p {
+  @apply text-vd-text-secondary leading-relaxed mb-4;
+}
+
+.prose-vd ul {
+  @apply list-disc pl-6 mb-4 text-vd-text-secondary;
+}
+
+.prose-vd ol {
+  @apply list-decimal pl-6 mb-4 text-vd-text-secondary;
+}
+
+.prose-vd li {
+  @apply mb-1;
+}
+
+.prose-vd a {
+  @apply text-vd-accent hover:underline;
+}
+
+.prose-vd strong {
+  @apply text-vd-text-primary font-semibold;
+}
+
 .prose-vd code {
   @apply bg-vd-bg-tertiary text-vd-accent px-1.5 py-0.5 rounded text-sm font-mono;
 }
+
 .prose-vd pre {
   @apply bg-vd-bg-secondary border border-vd-border rounded-lg p-4 overflow-x-auto mb-4;
 }
+
 .prose-vd pre code {
   @apply bg-transparent px-0 py-0;
 }
