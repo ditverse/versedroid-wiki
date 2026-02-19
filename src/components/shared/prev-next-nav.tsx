@@ -4,23 +4,20 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type ArticleRef = {
     slug: string;
-    titleKey: string;
+    title: string;
 };
 
 type PrevNextNavProps = {
     prev: ArticleRef | null;
     next: ArticleRef | null;
     basePath: string;
-    translationNamespace: string;
 };
 
 export function PrevNextNav({
     prev,
     next,
     basePath,
-    translationNamespace,
 }: PrevNextNavProps) {
-    const t = useTranslations(translationNamespace);
     const tCommon = useTranslations("Common");
 
     return (
@@ -38,7 +35,7 @@ export function PrevNextNav({
                         {tCommon("prevArticle")}
                     </span>
                     <span className="text-sm font-medium text-vd-text-primary group-hover:text-vd-accent">
-                        {t(prev.titleKey)}
+                        {prev.title}
                     </span>
                 </Link>
             ) : (
@@ -55,7 +52,7 @@ export function PrevNextNav({
                         <ChevronRight className="h-3 w-3" />
                     </span>
                     <span className="text-sm font-medium text-vd-text-primary group-hover:text-vd-accent">
-                        {t(next.titleKey)}
+                        {next.title}
                     </span>
                 </Link>
             ) : (

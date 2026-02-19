@@ -10,7 +10,6 @@ type BlogCardProps = {
 
 export function BlogCard({ post }: BlogCardProps) {
     const t = useTranslations("BlogIndex");
-    const tPost = useTranslations("BlogPosts");
 
     return (
         <Link
@@ -36,22 +35,24 @@ export function BlogCard({ post }: BlogCardProps) {
 
                 {/* Title */}
                 <h3 className="mb-2 text-base font-semibold text-vd-text-primary group-hover:text-vd-accent transition-colors">
-                    {tPost(post.titleKey)}
+                    {post.title}
                 </h3>
 
                 {/* Excerpt */}
                 <p className="mb-4 flex-1 text-sm leading-relaxed text-vd-text-secondary line-clamp-2">
-                    {tPost(post.excerptKey)}
+                    {post.excerpt}
                 </p>
 
                 {/* Date */}
                 <div className="flex items-center gap-1 text-xs text-vd-text-secondary">
                     <Calendar className="h-3 w-3" />
-                    {new Date(post.date).toLocaleDateString("id-ID", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                    })}
+                    {post.publishedAt
+                        ? new Date(post.publishedAt).toLocaleDateString("id-ID", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                        })
+                        : "Draft"}
                     <span className="ml-1">• {post.author}</span>
                 </div>
             </div>

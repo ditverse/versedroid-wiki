@@ -2,11 +2,12 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import {
-    toolArticles,
-    toolCategories,
+    getToolCategories,
     getToolBySlug,
     getAdjacentTools,
-} from "@/features/tools";
+    getAllToolSlugs,
+} from "@/features/tools/actions/queries";
+import type { ToolArticle, ToolCategory } from "@/features/tools/types";
 import { DocSidebar } from "@/components/shared/doc-sidebar";
 import { TableOfContents } from "@/components/shared/table-of-contents";
 import { PrevNextNav } from "@/components/shared/prev-next-nav";
@@ -21,8 +22,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Link } from "@/i18n/navigation";
 
-export function generateStaticParams() {
-    return toolArticles.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+    const slugs = await getAllToolSlugs();
+    return slugs.map((slug) => ({ slug }));
 }
 
 type Props = {
@@ -33,25 +35,43 @@ export default async function ToolsDetailPage({ params }: Props) {
     const { locale, slug } = await params;
     setRequestLocale(locale);
 
-    const article = getToolBySlug(slug);
+    const [article, categories, adjacent] = await Promise.all([
+        getToolBySlug(slug, locale),
+        getToolCategories(locale),
+        getAdjacentTools(slug),
+    ]);
+
     if (!article) notFound();
 
-    return <ToolsDetailContent slug={slug} />;
+    return (
+        <ToolsDetailContent
+            article={article}
+            categories={categories}
+            prev={adjacent.prev}
+            next={adjacent.next}
+        />
+    );
 }
 
-function ToolsDetailContent({ slug }: { slug: string }) {
-    const t = useTranslations("ToolsDetail");
+function ToolsDetailContent({
+    article,
+    categories,
+    prev,
+    next,
+}: {
+    article: ToolArticle;
+    categories: ToolCategory[];
+    prev: ToolArticle | null;
+    next: ToolArticle | null;
+}) {
     const tCommon = useTranslations("Common");
 
-    const article = getToolBySlug(slug)!;
-    const { prev, next } = getAdjacentTools(slug);
-
-    const sidebarCategories = toolCategories.map((cat) => ({
+    const sidebarCategories = categories.map((cat) => ({
         key: cat.key,
-        labelKey: cat.labelKey,
+        label: cat.label,
         items: cat.articles.map((a) => ({
             slug: a.slug,
-            titleKey: a.titleKey,
+            title: a.title,
         })),
     }));
 
@@ -61,7 +81,6 @@ function ToolsDetailContent({ slug }: { slug: string }) {
         )
         .map((block) => ({ id: block.id, text: block.text }));
 
-    // Add usage section to TOC if there are tabs
     if (article.tabs.length > 0) {
         tocItems.push({ id: "penggunaan", text: "Penggunaan" });
     }
@@ -73,7 +92,6 @@ function ToolsDetailContent({ slug }: { slug: string }) {
                 <DocSidebar
                     categories={sidebarCategories}
                     basePath="/tools"
-                    translationNamespace="ToolsDetail"
                 />
 
                 {/* Main content */}
@@ -95,7 +113,7 @@ function ToolsDetailContent({ slug }: { slug: string }) {
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
                                 <BreadcrumbPage>
-                                    {t(article.titleKey)}
+                                    {article.title}
                                 </BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>
@@ -103,7 +121,7 @@ function ToolsDetailContent({ slug }: { slug: string }) {
 
                     {/* Article title */}
                     <h1 className="mb-8 text-3xl font-bold text-vd-text-primary sm:text-4xl animate-fade-in">
-                        {t(article.titleKey)}
+                        {article.title}
                     </h1>
 
                     {/* Tool content */}
@@ -113,16 +131,15 @@ function ToolsDetailContent({ slug }: { slug: string }) {
                     <PrevNextNav
                         prev={
                             prev
-                                ? { slug: prev.slug, titleKey: prev.titleKey }
+                                ? { slug: prev.slug, title: prev.title }
                                 : null
                         }
                         next={
                             next
-                                ? { slug: next.slug, titleKey: next.titleKey }
+                                ? { slug: next.slug, title: next.title }
                                 : null
                         }
                         basePath="/tools"
-                        translationNamespace="ToolsDetail"
                     />
                 </div>
 

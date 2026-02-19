@@ -2,11 +2,12 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import {
-    faqArticles,
-    faqCategories,
+    getFaqCategories,
     getFaqBySlug,
-    getAdjacentArticles,
-} from "@/features/faq";
+    getAdjacentFaqArticles,
+    getAllFaqSlugs,
+} from "@/features/faq/actions/queries";
+import type { FaqArticle, FaqCategory } from "@/features/faq/types";
 import { DocSidebar } from "@/components/shared/doc-sidebar";
 import { TableOfContents } from "@/components/shared/table-of-contents";
 import { PrevNextNav } from "@/components/shared/prev-next-nav";
@@ -21,8 +22,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Link } from "@/i18n/navigation";
 
-export function generateStaticParams() {
-    return faqArticles.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+    const slugs = await getAllFaqSlugs();
+    return slugs.map((slug) => ({ slug }));
 }
 
 type Props = {
@@ -33,25 +35,43 @@ export default async function FaqDetailPage({ params }: Props) {
     const { locale, slug } = await params;
     setRequestLocale(locale);
 
-    const article = getFaqBySlug(slug);
+    const [article, categories, adjacent] = await Promise.all([
+        getFaqBySlug(slug, locale),
+        getFaqCategories(locale),
+        getAdjacentFaqArticles(slug),
+    ]);
+
     if (!article) notFound();
 
-    return <FaqDetailContent slug={slug} />;
+    return (
+        <FaqDetailContent
+            article={article}
+            categories={categories}
+            prev={adjacent.prev}
+            next={adjacent.next}
+        />
+    );
 }
 
-function FaqDetailContent({ slug }: { slug: string }) {
-    const t = useTranslations("FaqDetail");
+function FaqDetailContent({
+    article,
+    categories,
+    prev,
+    next,
+}: {
+    article: FaqArticle;
+    categories: FaqCategory[];
+    prev: FaqArticle | null;
+    next: FaqArticle | null;
+}) {
     const tCommon = useTranslations("Common");
 
-    const article = getFaqBySlug(slug)!;
-    const { prev, next } = getAdjacentArticles(slug);
-
-    const sidebarCategories = faqCategories.map((cat) => ({
+    const sidebarCategories = categories.map((cat) => ({
         key: cat.key,
-        labelKey: cat.labelKey,
+        label: cat.label,
         items: cat.articles.map((a) => ({
             slug: a.slug,
-            titleKey: a.titleKey,
+            title: a.title,
         })),
     }));
 
@@ -61,7 +81,6 @@ function FaqDetailContent({ slug }: { slug: string }) {
         )
         .map((block) => ({ id: block.id, text: block.text }));
 
-    // Add FAQ section to TOC if there are FAQ items
     if (article.faqItems.length > 0) {
         tocItems.push({ id: "faq", text: "FAQ" });
     }
@@ -73,7 +92,6 @@ function FaqDetailContent({ slug }: { slug: string }) {
                 <DocSidebar
                     categories={sidebarCategories}
                     basePath="/faq"
-                    translationNamespace="FaqDetail"
                 />
 
                 {/* Main content */}
@@ -95,7 +113,7 @@ function FaqDetailContent({ slug }: { slug: string }) {
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
                                 <BreadcrumbPage>
-                                    {t(article.titleKey)}
+                                    {article.title}
                                 </BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>
@@ -103,7 +121,7 @@ function FaqDetailContent({ slug }: { slug: string }) {
 
                     {/* Article title */}
                     <h1 className="mb-8 text-3xl font-bold text-vd-text-primary sm:text-4xl animate-fade-in">
-                        {t(article.titleKey)}
+                        {article.title}
                     </h1>
 
                     {/* Article content */}
@@ -116,16 +134,15 @@ function FaqDetailContent({ slug }: { slug: string }) {
                     <PrevNextNav
                         prev={
                             prev
-                                ? { slug: prev.slug, titleKey: prev.titleKey }
+                                ? { slug: prev.slug, title: prev.title }
                                 : null
                         }
                         next={
                             next
-                                ? { slug: next.slug, titleKey: next.titleKey }
+                                ? { slug: next.slug, title: next.title }
                                 : null
                         }
                         basePath="/faq"
-                        translationNamespace="FaqDetail"
                     />
                 </div>
 

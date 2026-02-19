@@ -18,10 +18,10 @@ export function FaqCard({ article }: FaqCardProps) {
                 {article.icon}
             </div>
             <h3 className="mb-2 text-base font-semibold text-vd-text-primary">
-                {t(article.titleKey)}
+                {article.title}
             </h3>
             <p className="mb-4 flex-1 text-sm leading-relaxed text-vd-text-secondary">
-                {t(article.descriptionKey)}
+                {article.description}
             </p>
             <span className="text-sm font-medium text-vd-accent transition-transform group-hover:translate-x-1">
                 {t("readMore")}

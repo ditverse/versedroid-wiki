@@ -13,17 +13,20 @@ export type FaqItem = {
 };
 
 export type FaqArticle = {
+    id: string;
     slug: string;
     icon: string;
-    titleKey: string;
-    descriptionKey: string;
-    category: string;
+    sortOrder: number;
+    published: boolean;
+    title: string;
+    description: string;
     content: ContentBlock[];
     faqItems: FaqItem[];
 };
 
 export type FaqCategory = {
+    id: string;
     key: string;
-    labelKey: string;
+    label: string;
     articles: FaqArticle[];
 };

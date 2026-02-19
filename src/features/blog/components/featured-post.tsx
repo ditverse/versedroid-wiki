@@ -10,7 +10,6 @@ type FeaturedPostProps = {
 
 export function FeaturedPost({ post }: FeaturedPostProps) {
     const t = useTranslations("BlogIndex");
-    const tPost = useTranslations("BlogPosts");
 
     return (
         <Link
@@ -38,21 +37,23 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
                 </div>
 
                 <h2 className="mb-3 text-xl font-bold text-vd-text-primary group-hover:text-vd-accent transition-colors sm:text-2xl">
-                    {tPost(post.titleKey)}
+                    {post.title}
                 </h2>
 
                 <p className="mb-4 text-sm leading-relaxed text-vd-text-secondary">
-                    {tPost(post.excerptKey)}
+                    {post.excerpt}
                 </p>
 
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1 text-xs text-vd-text-secondary">
                         <Calendar className="h-3 w-3" />
-                        {new Date(post.date).toLocaleDateString("id-ID", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                        })}
+                        {post.publishedAt
+                            ? new Date(post.publishedAt).toLocaleDateString("id-ID", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                            })
+                            : "Draft"}
                         <span className="ml-1">• {post.author}</span>
                     </div>
                     <span className="flex items-center gap-1 text-sm font-medium text-vd-accent group-hover:translate-x-1 transition-transform">

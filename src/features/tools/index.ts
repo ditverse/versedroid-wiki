@@ -6,8 +6,8 @@ export type {
     TabContent,
 } from "./types";
 export {
-    toolArticles,
-    toolCategories,
+    getToolCategories,
     getToolBySlug,
     getAdjacentTools,
-} from "./data";
+    getAllToolSlugs,
+} from "./actions/queries";

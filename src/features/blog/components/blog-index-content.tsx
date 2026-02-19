@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { blogPosts, getFeaturedPost, getPostsByCategory } from "@/features/blog";
+import type { BlogPost } from "@/features/blog/types";
 import { BlogCard } from "@/features/blog/components/blog-card";
 import { FeaturedPost } from "@/features/blog/components/featured-post";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
@@ -10,14 +10,18 @@ import { Badge } from "@/components/ui/badge";
 
 const categories = ["all", "tutorial", "tips", "news"] as const;
 
-export function BlogIndexContent() {
+type BlogIndexContentProps = {
+    posts: BlogPost[];
+    featured: BlogPost | null;
+};
+
+export function BlogIndexContent({ posts, featured }: BlogIndexContentProps) {
     const t = useTranslations("BlogIndex");
     const [activeCategory, setActiveCategory] = useState<string>("all");
 
-    const featured = getFeaturedPost();
-    const filteredPosts = getPostsByCategory(activeCategory).filter(
-        (p) => !p.featured || activeCategory !== "all"
-    );
+    const filteredPosts = activeCategory === "all"
+        ? posts.filter((p) => !p.featured)
+        : posts.filter((p) => p.category === activeCategory);
 
     return (
         <section className="px-4 py-16 sm:py-20">
@@ -52,8 +56,8 @@ export function BlogIndexContent() {
                             <Badge
                                 variant={activeCategory === cat ? "default" : "secondary"}
                                 className={`cursor-pointer text-xs px-3 py-1.5 transition-colors ${activeCategory === cat
-                                        ? "bg-vd-accent text-vd-bg-primary"
-                                        : "bg-vd-bg-tertiary text-vd-text-secondary hover:text-vd-text-primary"
+                                    ? "bg-vd-accent text-vd-bg-primary"
+                                    : "bg-vd-bg-tertiary text-vd-text-secondary hover:text-vd-text-primary"
                                     }`}
                             >
                                 {t(cat)}

@@ -1,6 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
@@ -10,26 +9,23 @@ import { Menu } from "lucide-react";
 
 type SidebarCategory = {
     key: string;
-    labelKey: string;
+    label: string;
     items: {
         slug: string;
-        titleKey: string;
+        title: string;
     }[];
 };
 
 type DocSidebarProps = {
     categories: SidebarCategory[];
     basePath: string;
-    translationNamespace: string;
 };
 
 function SidebarContent({
     categories,
     basePath,
-    translationNamespace,
     onNavigate,
 }: DocSidebarProps & { onNavigate?: () => void }) {
-    const t = useTranslations(translationNamespace);
     const pathname = usePathname();
     const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
         Object.fromEntries(categories.map((c) => [c.key, true]))
@@ -47,7 +43,7 @@ function SidebarContent({
                         onClick={() => toggleCategory(category.key)}
                         className="flex w-full items-center justify-between rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-wider text-vd-text-secondary hover:text-vd-text-primary"
                     >
-                        {t(category.labelKey)}
+                        {category.label}
                         <ChevronDown
                             className={`h-3.5 w-3.5 transition-transform duration-200 ${openCategories[category.key] ? "rotate-0" : "-rotate-90"
                                 }`}
@@ -65,14 +61,14 @@ function SidebarContent({
                                         href={href}
                                         onClick={onNavigate}
                                         className={`relative block rounded-md px-3 py-1.5 text-sm transition-colors ${isActive
-                                                ? "bg-vd-accent/10 font-medium text-vd-accent"
-                                                : "text-vd-text-secondary hover:bg-vd-bg-tertiary hover:text-vd-text-primary"
+                                            ? "bg-vd-accent/10 font-medium text-vd-accent"
+                                            : "text-vd-text-secondary hover:bg-vd-bg-tertiary hover:text-vd-text-primary"
                                             }`}
                                     >
                                         {isActive && (
                                             <span className="absolute -left-[calc(0.5rem+1px)] top-1/2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-vd-accent" />
                                         )}
-                                        {t(item.titleKey)}
+                                        {item.title}
                                     </Link>
                                 );
                             })}

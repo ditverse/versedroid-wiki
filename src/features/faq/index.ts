@@ -6,8 +6,8 @@ export type {
     CalloutType,
 } from "./types";
 export {
-    faqArticles,
-    faqCategories,
+    getFaqCategories,
     getFaqBySlug,
-    getAdjacentArticles,
-} from "./data";
+    getAdjacentFaqArticles,
+    getAllFaqSlugs,
+} from "./actions/queries";

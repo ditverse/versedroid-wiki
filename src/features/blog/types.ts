@@ -3,14 +3,17 @@ import type { ContentBlock } from "@/features/faq/types";
 export type BlogCategory = "tutorial" | "news" | "tips";
 
 export type BlogPost = {
+    id: string;
     slug: string;
-    titleKey: string;
-    excerptKey: string;
     category: BlogCategory;
     readTime: number;
-    date: string;
     author: string;
     featured: boolean;
+    published: boolean;
+    coverImage: string | null;
+    publishedAt: string | null;
+    title: string;
+    excerpt: string;
     content: ContentBlock[];
-    relatedSlugs: string[];
+    relatedPosts: BlogPost[];
 };

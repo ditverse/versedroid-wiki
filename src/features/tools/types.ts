@@ -15,25 +15,27 @@ export type StepItem = {
 
 export type TabContent = {
     label: string;
-    labelKey: string;
     steps: StepItem[];
 };
 
 export type ToolArticle = {
+    id: string;
     slug: string;
     icon: string;
-    titleKey: string;
-    descriptionKey: string;
-    category: string;
-    specs: SpecItem[];
+    sortOrder: number;
+    published: boolean;
     downloadUrl: string;
     downloadVersion: string;
-    tabs: TabContent[];
+    title: string;
+    description: string;
     content: ContentBlock[];
+    specs: SpecItem[];
+    tabs: TabContent[];
 };
 
 export type ToolCategory = {
+    id: string;
     key: string;
-    labelKey: string;
+    label: string;
     articles: ToolArticle[];
 };

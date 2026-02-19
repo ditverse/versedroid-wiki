@@ -1,6 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
-import { faqCategories } from "@/features/faq";
+import { getFaqCategories } from "@/features/faq/actions/queries";
 import { FaqCard } from "@/features/faq/components/faq-card";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 
@@ -12,10 +12,16 @@ export default async function FaqIndexPage({ params }: Props) {
     const { locale } = await params;
     setRequestLocale(locale);
 
-    return <FaqIndexContent />;
+    const categories = await getFaqCategories(locale);
+
+    return <FaqIndexContent categories={categories} />;
 }
 
-function FaqIndexContent() {
+function FaqIndexContent({
+    categories,
+}: {
+    categories: Awaited<ReturnType<typeof getFaqCategories>>;
+}) {
     const t = useTranslations("FaqIndex");
 
     return (
@@ -33,7 +39,7 @@ function FaqIndexContent() {
 
                 {/* Cards Grid */}
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {faqCategories.flatMap((cat) =>
+                    {categories.flatMap((cat) =>
                         cat.articles.map((article, i) => (
                             <ScrollReveal key={article.slug} delay={50 * i}>
                                 <FaqCard article={article} />

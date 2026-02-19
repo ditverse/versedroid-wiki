@@ -126,12 +126,12 @@ export function ToolContent({ article }: ToolContentProps) {
                     <h2 id="penggunaan" className="text-2xl font-bold text-vd-text-primary mb-4">
                         Penggunaan
                     </h2>
-                    <Tabs defaultValue={article.tabs[0].labelKey} className="w-full">
+                    <Tabs defaultValue={article.tabs[0].label} className="w-full">
                         <TabsList className="mb-6 bg-vd-bg-tertiary border border-vd-border">
                             {article.tabs.map((tab) => (
                                 <TabsTrigger
-                                    key={tab.labelKey}
-                                    value={tab.labelKey}
+                                    key={tab.label}
+                                    value={tab.label}
                                     className="data-[state=active]:bg-vd-accent data-[state=active]:text-vd-bg-primary"
                                 >
                                     {tab.label}
@@ -140,7 +140,7 @@ export function ToolContent({ article }: ToolContentProps) {
                         </TabsList>
 
                         {article.tabs.map((tab) => (
-                            <TabsContent key={tab.labelKey} value={tab.labelKey}>
+                            <TabsContent key={tab.label} value={tab.label}>
                                 <div className="relative space-y-6">
                                     {/* Vertical connector line */}
                                     <div className="absolute left-5 top-8 bottom-8 w-0.5 bg-vd-border" />

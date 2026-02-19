@@ -1,8 +1,8 @@
 export type { BlogPost, BlogCategory } from "./types";
 export {
-    blogPosts,
+    getBlogPosts,
+    getFeaturedPost,
     getBlogBySlug,
     getRelatedPosts,
-    getPostsByCategory,
-    getFeaturedPost,
-} from "./data";
+    getAllBlogSlugs,
+} from "./actions/queries";

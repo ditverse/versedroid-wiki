@@ -1,7 +1,12 @@
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
-import { blogPosts, getBlogBySlug, getRelatedPosts } from "@/features/blog";
+import {
+    getBlogBySlug,
+    getRelatedPosts,
+    getAllBlogSlugs,
+} from "@/features/blog/actions/queries";
+import type { BlogPost } from "@/features/blog/types";
 import { FaqContent } from "@/features/faq/components/faq-content";
 import { TableOfContents } from "@/components/shared/table-of-contents";
 import { ShareButtons } from "@/features/blog/components/share-buttons";
@@ -19,8 +24,9 @@ import {
 import { Link } from "@/i18n/navigation";
 import { Calendar, Clock, User } from "lucide-react";
 
-export function generateStaticParams() {
-    return blogPosts.map((post) => ({ slug: post.slug }));
+export async function generateStaticParams() {
+    const slugs = await getAllBlogSlugs();
+    return slugs.map((slug) => ({ slug }));
 }
 
 type Props = {
@@ -31,20 +37,26 @@ export default async function BlogDetailPage({ params }: Props) {
     const { locale, slug } = await params;
     setRequestLocale(locale);
 
-    const post = getBlogBySlug(slug);
+    const [post, related] = await Promise.all([
+        getBlogBySlug(slug, locale),
+        getRelatedPosts(slug, locale),
+    ]);
+
     if (!post) notFound();
 
-    return <BlogDetailContent slug={slug} />;
+    return <BlogDetailContent post={post} related={related} />;
 }
 
-function BlogDetailContent({ slug }: { slug: string }) {
+function BlogDetailContent({
+    post,
+    related,
+}: {
+    post: BlogPost;
+    related: BlogPost[];
+}) {
     const t = useTranslations("BlogDetail");
     const tCommon = useTranslations("Common");
     const tIndex = useTranslations("BlogIndex");
-    const tPost = useTranslations("BlogPosts");
-
-    const post = getBlogBySlug(slug)!;
-    const related = getRelatedPosts(post.relatedSlugs);
 
     const tocItems = post.content
         .filter((block): block is Extract<typeof block, { type: "heading" }> =>
@@ -72,7 +84,7 @@ function BlogDetailContent({ slug }: { slug: string }) {
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                             <BreadcrumbPage>
-                                {tPost(post.titleKey)}
+                                {post.title}
                             </BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
@@ -88,11 +100,13 @@ function BlogDetailContent({ slug }: { slug: string }) {
                             </Badge>
                             <span className="flex items-center gap-1">
                                 <Calendar className="h-3.5 w-3.5" />
-                                {new Date(post.date).toLocaleDateString("id-ID", {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                })}
+                                {post.publishedAt
+                                    ? new Date(post.publishedAt).toLocaleDateString("id-ID", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })
+                                    : "Draft"}
                             </span>
                             <span className="flex items-center gap-1">
                                 <Clock className="h-3.5 w-3.5" />
@@ -106,7 +120,7 @@ function BlogDetailContent({ slug }: { slug: string }) {
 
                         {/* Title */}
                         <h1 className="mb-8 text-3xl font-bold text-vd-text-primary sm:text-4xl animate-fade-in">
-                            {tPost(post.titleKey)}
+                            {post.title}
                         </h1>
 
                         {/* Content — reuse FaqContent renderer */}
