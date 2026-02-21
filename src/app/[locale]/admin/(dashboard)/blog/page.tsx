@@ -1,21 +1,26 @@
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
 import { BlogListActions } from "./list-actions";
 
-async function getAdminBlogPosts() {
-    const supabase = await createClient();
-    const { data } = await supabase
-        .from("blog_posts")
-        .select(`
-            id, slug, category, author, published, featured, published_at,
-            blog_post_translations (locale, title)
-        `)
-        .order("created_at", { ascending: false });
-    return data ?? [];
-}
+const getAdminBlogPosts = unstable_cache(
+    async () => {
+        const supabase = createStaticClient();
+        const { data } = await supabase
+            .from("blog_posts")
+            .select(`
+                id, slug, category, author, published, featured, published_at,
+                blog_post_translations (locale, title)
+            `)
+            .order("created_at", { ascending: false });
+        return data ?? [];
+    },
+    ["admin-blog-posts"],
+    { revalidate: 30 }
+);
 
 export default async function AdminBlogListPage() {
     const posts = await getAdminBlogPosts();

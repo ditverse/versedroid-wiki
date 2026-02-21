@@ -1,4 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,18 +13,22 @@ import {
 import { Plus } from "lucide-react";
 import { FaqListActions } from "./list-actions";
 
-async function getAdminFaqArticles() {
-    const supabase = await createClient();
-    const { data } = await supabase
-        .from("faq_articles")
-        .select(`
-            id, slug, icon, sort_order, published, created_at,
-            faq_article_translations (locale, title),
-            faq_categories!inner (key)
-        `)
-        .order("sort_order", { ascending: true });
-    return data ?? [];
-}
+const getAdminFaqArticles = unstable_cache(
+    async () => {
+        const supabase = createStaticClient();
+        const { data } = await supabase
+            .from("faq_articles")
+            .select(`
+                id, slug, icon, sort_order, published, created_at,
+                faq_article_translations (locale, title),
+                faq_categories!inner (key)
+            `)
+            .order("sort_order", { ascending: true });
+        return data ?? [];
+    },
+    ["admin-faq-articles"],
+    { revalidate: 30 }
+);
 
 export default async function AdminFaqListPage() {
     const articles = await getAdminFaqArticles();
@@ -77,8 +82,8 @@ export default async function AdminFaqListPage() {
                                     <TableCell>
                                         <span
                                             className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${article.published
-                                                    ? "bg-green-500/10 text-green-400"
-                                                    : "bg-yellow-500/10 text-yellow-400"
+                                                ? "bg-green-500/10 text-green-400"
+                                                : "bg-yellow-500/10 text-yellow-400"
                                                 }`}
                                         >
                                             {article.published ? "Published" : "Draft"}

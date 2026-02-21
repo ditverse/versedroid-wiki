@@ -1,36 +1,41 @@
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Wrench, FileText, Eye, EyeOff } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 
-async function getStats() {
-    const supabase = await createClient();
+const getStats = unstable_cache(
+    async () => {
+        const supabase = createStaticClient();
 
-    const [faqRes, toolRes, blogRes] = await Promise.all([
-        supabase.from("faq_articles").select("id, published", { count: "exact" }),
-        supabase.from("tool_articles").select("id, published", { count: "exact" }),
-        supabase.from("blog_posts").select("id, published", { count: "exact" }),
-    ]);
+        const [faqRes, toolRes, blogRes] = await Promise.all([
+            supabase.from("faq_articles").select("id, published", { count: "exact" }),
+            supabase.from("tool_articles").select("id, published", { count: "exact" }),
+            supabase.from("blog_posts").select("id, published", { count: "exact" }),
+        ]);
 
-    const faqArticles = faqRes.data ?? [];
-    const toolArticles = toolRes.data ?? [];
-    const blogPosts = blogRes.data ?? [];
+        const faqArticles = faqRes.data ?? [];
+        const toolArticles = toolRes.data ?? [];
+        const blogPosts = blogRes.data ?? [];
 
-    return {
-        faq: {
-            total: faqArticles.length,
-            published: faqArticles.filter((a: { published: boolean }) => a.published).length,
-        },
-        tools: {
-            total: toolArticles.length,
-            published: toolArticles.filter((a: { published: boolean }) => a.published).length,
-        },
-        blog: {
-            total: blogPosts.length,
-            published: blogPosts.filter((p: { published: boolean }) => p.published).length,
-        },
-    };
-}
+        return {
+            faq: {
+                total: faqArticles.length,
+                published: faqArticles.filter((a: { published: boolean }) => a.published).length,
+            },
+            tools: {
+                total: toolArticles.length,
+                published: toolArticles.filter((a: { published: boolean }) => a.published).length,
+            },
+            blog: {
+                total: blogPosts.length,
+                published: blogPosts.filter((p: { published: boolean }) => p.published).length,
+            },
+        };
+    },
+    ["admin-stats"],
+    { revalidate: 30 }
+);
 
 export default async function AdminDashboardPage() {
     const stats = await getStats();

@@ -1,4 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
+import { createStaticClient } from "@/lib/supabase/static";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,18 +8,22 @@ import {
 import { Plus } from "lucide-react";
 import { ToolListActions } from "./list-actions";
 
-async function getAdminToolArticles() {
-    const supabase = await createClient();
-    const { data } = await supabase
-        .from("tool_articles")
-        .select(`
-            id, slug, icon, sort_order, published,
-            tool_article_translations (locale, title),
-            tool_categories!inner (key)
-        `)
-        .order("sort_order", { ascending: true });
-    return data ?? [];
-}
+const getAdminToolArticles = unstable_cache(
+    async () => {
+        const supabase = createStaticClient();
+        const { data } = await supabase
+            .from("tool_articles")
+            .select(`
+                id, slug, icon, sort_order, published,
+                tool_article_translations (locale, title),
+                tool_categories!inner (key)
+            `)
+            .order("sort_order", { ascending: true });
+        return data ?? [];
+    },
+    ["admin-tool-articles"],
+    { revalidate: 30 }
+);
 
 export default async function AdminToolsListPage() {
     const articles = await getAdminToolArticles();
