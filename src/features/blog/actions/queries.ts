@@ -1,22 +1,25 @@
-import { createClient } from "@/lib/supabase/server";
+import { unstable_cache } from "next/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import type { BlogPost, BlogCategory } from "../types";
 import type { ContentBlock } from "@/features/faq/types";
+
+/** Listing cache: 2 min stale, 5 min revalidate */
+const LISTING_REVALIDATE = 300;
+/** Content cache: 5 min stale, 15 min revalidate */
+const CONTENT_REVALIDATE = 900;
 
 /**
  * Fetches blog posts with optional category filter.
  * Only returns published posts, ordered by published_at desc.
  */
-export async function getBlogPosts(
-    locale: string,
-    category?: string | null
-): Promise<BlogPost[]> {
-    const supabase = await createClient();
+export const getBlogPosts = unstable_cache(
+    async (locale: string, category?: string | null): Promise<BlogPost[]> => {
+        const supabase = createStaticClient();
 
-    let query = supabase
-        .from("blog_posts")
-        .select(
-            `
+        let query = supabase
+            .from("blog_posts")
+            .select(
+                `
             id,
             slug,
             category,
@@ -28,37 +31,41 @@ export async function getBlogPosts(
             published_at,
             blog_post_translations!inner (locale, title, excerpt, content)
         `
-        )
-        .eq("published", true)
-        .eq("blog_post_translations.locale", locale)
-        .order("published_at", { ascending: false });
+            )
+            .eq("published", true)
+            .eq("blog_post_translations.locale", locale)
+            .order("published_at", { ascending: false });
 
-    if (category && category !== "all") {
-        query = query.eq("category", category);
-    }
+        if (category && category !== "all") {
+            query = query.eq("category", category);
+        }
 
-    const { data, error } = await query;
+        const { data, error } = await query;
 
-    if (error) {
-        console.error("Failed to fetch blog posts:", error.message);
-        return [];
-    }
+        if (error) {
+            console.error("Failed to fetch blog posts:", error.message);
+            return [];
+        }
 
-    return (data ?? []).map((row) => mapBlogPost(row as Record<string, unknown>));
-}
+        return (data ?? []).map((row) =>
+            mapBlogPost(row as Record<string, unknown>)
+        );
+    },
+    ["blog-posts"],
+    { revalidate: LISTING_REVALIDATE }
+);
 
 /**
  * Fetches the featured blog post.
  */
-export async function getFeaturedPost(
-    locale: string
-): Promise<BlogPost | null> {
-    const supabase = await createClient();
+export const getFeaturedPost = unstable_cache(
+    async (locale: string): Promise<BlogPost | null> => {
+        const supabase = createStaticClient();
 
-    const { data, error } = await supabase
-        .from("blog_posts")
-        .select(
-            `
+        const { data, error } = await supabase
+            .from("blog_posts")
+            .select(
+                `
             id,
             slug,
             category,
@@ -70,33 +77,34 @@ export async function getFeaturedPost(
             published_at,
             blog_post_translations!inner (locale, title, excerpt, content)
         `
-        )
-        .eq("published", true)
-        .eq("featured", true)
-        .eq("blog_post_translations.locale", locale)
-        .limit(1)
-        .single();
+            )
+            .eq("published", true)
+            .eq("featured", true)
+            .eq("blog_post_translations.locale", locale)
+            .limit(1)
+            .single();
 
-    if (error || !data) {
-        return null;
-    }
+        if (error || !data) {
+            return null;
+        }
 
-    return mapBlogPost(data as Record<string, unknown>);
-}
+        return mapBlogPost(data as Record<string, unknown>);
+    },
+    ["blog-featured"],
+    { revalidate: LISTING_REVALIDATE }
+);
 
 /**
  * Fetches a single blog post by slug.
  */
-export async function getBlogBySlug(
-    slug: string,
-    locale: string
-): Promise<BlogPost | null> {
-    const supabase = await createClient();
+export const getBlogBySlug = unstable_cache(
+    async (slug: string, locale: string): Promise<BlogPost | null> => {
+        const supabase = createStaticClient();
 
-    const { data, error } = await supabase
-        .from("blog_posts")
-        .select(
-            `
+        const { data, error } = await supabase
+            .from("blog_posts")
+            .select(
+                `
             id,
             slug,
             category,
@@ -108,52 +116,53 @@ export async function getBlogBySlug(
             published_at,
             blog_post_translations!inner (locale, title, excerpt, content)
         `
-        )
-        .eq("slug", slug)
-        .eq("published", true)
-        .eq("blog_post_translations.locale", locale)
-        .single();
+            )
+            .eq("slug", slug)
+            .eq("published", true)
+            .eq("blog_post_translations.locale", locale)
+            .single();
 
-    if (error || !data) {
-        return null;
-    }
+        if (error || !data) {
+            return null;
+        }
 
-    return mapBlogPost(data as Record<string, unknown>);
-}
+        return mapBlogPost(data as Record<string, unknown>);
+    },
+    ["blog-by-slug"],
+    { revalidate: CONTENT_REVALIDATE }
+);
 
 /**
  * Fetches related posts for a given blog post slug.
  */
-export async function getRelatedPosts(
-    slug: string,
-    locale: string
-): Promise<BlogPost[]> {
-    const supabase = await createClient();
+export const getRelatedPosts = unstable_cache(
+    async (slug: string, locale: string): Promise<BlogPost[]> => {
+        const supabase = createStaticClient();
 
-    // First get the post ID
-    const { data: current } = await supabase
-        .from("blog_posts")
-        .select("id")
-        .eq("slug", slug)
-        .maybeSingle();
+        // First get the post ID
+        const { data: current } = await supabase
+            .from("blog_posts")
+            .select("id")
+            .eq("slug", slug)
+            .maybeSingle();
 
-    if (!current) return [];
+        if (!current) return [];
 
-    // Get related post IDs
-    const { data: relations } = await supabase
-        .from("blog_related_posts")
-        .select("related_post_id")
-        .eq("post_id", current.id);
+        // Get related post IDs
+        const { data: relations } = await supabase
+            .from("blog_related_posts")
+            .select("related_post_id")
+            .eq("post_id", current.id);
 
-    if (!relations || relations.length === 0) return [];
+        if (!relations || relations.length === 0) return [];
 
-    const relatedIds = relations.map((r) => r.related_post_id);
+        const relatedIds = relations.map((r) => r.related_post_id);
 
-    // Fetch the related posts
-    const { data: posts, error } = await supabase
-        .from("blog_posts")
-        .select(
-            `
+        // Fetch the related posts
+        const { data: posts, error } = await supabase
+            .from("blog_posts")
+            .select(
+                `
             id,
             slug,
             category,
@@ -165,17 +174,22 @@ export async function getRelatedPosts(
             published_at,
             blog_post_translations!inner (locale, title, excerpt, content)
         `
-        )
-        .in("id", relatedIds)
-        .eq("published", true)
-        .eq("blog_post_translations.locale", locale);
+            )
+            .in("id", relatedIds)
+            .eq("published", true)
+            .eq("blog_post_translations.locale", locale);
 
-    if (error || !posts) {
-        return [];
-    }
+        if (error || !posts) {
+            return [];
+        }
 
-    return posts.map((row) => mapBlogPost(row as Record<string, unknown>));
-}
+        return posts.map((row) =>
+            mapBlogPost(row as Record<string, unknown>)
+        );
+    },
+    ["blog-related"],
+    { revalidate: CONTENT_REVALIDATE }
+);
 
 /**
  * Returns all published blog slugs for generateStaticParams().
@@ -199,7 +213,12 @@ export async function getAllBlogSlugs(): Promise<string[]> {
 
 function mapBlogPost(raw: Record<string, unknown>): BlogPost {
     const translations = raw.blog_post_translations as
-        | Array<{ locale: string; title: string; excerpt: string; content: unknown }>
+        | Array<{
+            locale: string;
+            title: string;
+            excerpt: string;
+            content: unknown;
+        }>
         | undefined;
 
     const t = translations?.[0];

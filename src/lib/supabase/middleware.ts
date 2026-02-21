@@ -6,6 +6,14 @@ import { type NextRequest, NextResponse } from "next/server";
  * Must run in middleware to keep cookies up-to-date.
  */
 export async function updateSession(request: NextRequest) {
+    // Skip auth for public routes — only admin needs session refresh.
+    // This avoids a network roundtrip to Supabase on every public page navigation.
+    const pathname = request.nextUrl.pathname;
+    const isAdminRoute = /\/[a-z]{2}\/admin(\/|$)/.test(pathname);
+    if (!isAdminRoute) {
+        return NextResponse.next({ request });
+    }
+
     let supabaseResponse = NextResponse.next({ request });
 
     const supabase = createServerClient(
@@ -32,12 +40,10 @@ export async function updateSession(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser();
 
-    // Check if this is an admin route (but not the login page)
-    const pathname = request.nextUrl.pathname;
-    const isAdminRoute = /\/[a-z]{2}\/admin(\/|$)/.test(pathname);
+    // At this point, we know this is an admin route. Check login page specifically.
     const isLoginPage = /\/[a-z]{2}\/admin\/login/.test(pathname);
 
-    if (isAdminRoute && !isLoginPage && !user) {
+    if (!isLoginPage && !user) {
         // Extract locale from the path
         const localeMatch = pathname.match(/^\/([a-z]{2})\//);
         const locale = localeMatch?.[1] ?? "id";
