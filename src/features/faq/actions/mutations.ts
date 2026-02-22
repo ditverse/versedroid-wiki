@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 type FaqArticleInput = {
     slug: string;
@@ -47,7 +47,14 @@ export async function createFaqArticle(input: FaqArticleInput) {
         if (tErr) return { error: tErr.message };
     }
 
-    revalidatePath("/faq");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-categories");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-adjacent");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-faq-articles");
     return { id: article.id };
 }
 
@@ -84,8 +91,14 @@ export async function updateFaqArticle(id: string, input: FaqArticleInput) {
         if (tErr) return { error: tErr.message };
     }
 
-    revalidatePath("/faq");
-    revalidatePath(`/faq/${input.slug}`);
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-categories");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-adjacent");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-faq-articles");
     return { success: true };
 }
 
@@ -94,7 +107,14 @@ export async function deleteFaqArticle(id: string) {
     const { error } = await supabase.from("faq_articles").delete().eq("id", id);
     if (error) return { error: error.message };
 
-    revalidatePath("/faq");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-categories");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-adjacent");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-faq-articles");
     return { success: true };
 }
 
@@ -106,6 +126,13 @@ export async function toggleFaqPublish(id: string, published: boolean) {
         .eq("id", id);
     if (error) return { error: error.message };
 
-    revalidatePath("/faq");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-categories");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("faq-adjacent");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-faq-articles");
     return { success: true };
 }

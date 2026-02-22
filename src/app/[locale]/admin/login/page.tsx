@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, AlertCircle } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 export default function AdminLoginPage() {
     const router = useRouter();
@@ -104,12 +105,12 @@ export default function AdminLoginPage() {
                 </form>
 
                 <p className="text-center text-xs text-vd-text-secondary">
-                    <a href="/" className="hover:text-vd-accent transition-colors">
+                    <Link href="/" className="hover:text-vd-accent transition-colors">
                         ← Back to site
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>
     );
-    
+
 }

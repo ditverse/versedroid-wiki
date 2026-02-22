@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 type BlogPostInput = {
     slug: string;
@@ -61,7 +61,16 @@ export async function createBlogPost(input: BlogPostInput) {
         await supabase.from("blog_related_posts").insert(rows);
     }
 
-    revalidatePath("/blog");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-posts");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-featured");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-related");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-blog-posts");
     return { id: post.id };
 }
 
@@ -110,8 +119,16 @@ export async function updateBlogPost(id: string, input: BlogPostInput) {
         await supabase.from("blog_related_posts").insert(rows);
     }
 
-    revalidatePath("/blog");
-    revalidatePath(`/blog/${input.slug}`);
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-posts");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-featured");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-related");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-blog-posts");
     return { success: true };
 }
 
@@ -120,7 +137,16 @@ export async function deleteBlogPost(id: string) {
     const { error } = await supabase.from("blog_posts").delete().eq("id", id);
     if (error) return { error: error.message };
 
-    revalidatePath("/blog");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-posts");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-featured");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-related");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-blog-posts");
     return { success: true };
 }
 
@@ -132,7 +158,16 @@ export async function toggleBlogPublish(id: string, published: boolean) {
         .eq("id", id);
     if (error) return { error: error.message };
 
-    revalidatePath("/blog");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-posts");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-featured");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-related");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-blog-posts");
     return { success: true };
 }
 
@@ -144,6 +179,15 @@ export async function toggleBlogFeatured(id: string, featured: boolean) {
         .eq("id", id);
     if (error) return { error: error.message };
 
-    revalidatePath("/blog");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-posts");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-featured");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("blog-related");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-blog-posts");
     return { success: true };
 }

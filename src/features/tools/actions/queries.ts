@@ -71,8 +71,8 @@ export const getToolCategories = unstable_cache(
             };
         });
     },
-    ["tool-categories"],
-    { revalidate: LISTING_REVALIDATE }
+    ["tool-categories-key"],
+    { tags: ["tool-categories"], revalidate: LISTING_REVALIDATE }
 );
 
 /**
@@ -107,8 +107,8 @@ export const getToolBySlug = unstable_cache(
 
         return mapToolArticle(data as Record<string, unknown>);
     },
-    ["tool-by-slug"],
-    { revalidate: CONTENT_REVALIDATE }
+    ["tool-by-slug-key"],
+    { tags: ["tool-by-slug"], revalidate: CONTENT_REVALIDATE }
 );
 
 /**
@@ -158,8 +158,8 @@ export const getAdjacentTools = unstable_cache(
                     : null,
         };
     },
-    ["tool-adjacent"],
-    { revalidate: LISTING_REVALIDATE }
+    ["tool-adjacent-key"],
+    { tags: ["tool-adjacent"], revalidate: LISTING_REVALIDATE }
 );
 
 /**

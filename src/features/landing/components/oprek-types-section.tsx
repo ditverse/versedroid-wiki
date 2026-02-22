@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
-import { Unlock, Sprout, Disc3, Zap, Box, ArrowRight, Settings, CheckCircle, ShieldCheck } from "lucide-react";
+import { Unlock, Sprout, Disc3, Zap, Box, ArrowRight, Settings, CheckCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -106,6 +106,7 @@ export function OprekTypesSection() {
                                                 <type.icon className="h-6 w-6" />
                                             </div>
                                             <Badge variant="secondary" className={`${type.bg} ${type.color} border-0`}>
+                                                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                                 {t(type.benefitKey as any)}
                                             </Badge>
                                         </div>
@@ -141,9 +142,11 @@ export function OprekTypesSection() {
                                             <type.icon className="h-5 w-5" />
                                         </div>
                                         <h3 className="mb-2 text-base font-semibold text-vd-text-primary">
+                                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                             {t(type.titleKey as any)}
                                         </h3>
                                         <p className="text-sm leading-relaxed text-vd-text-secondary">
+                                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                                             {t(type.descKey as any)}
                                         </p>
                                     </div>
@@ -159,6 +162,7 @@ export function OprekTypesSection() {
 }
 
 // Reusable Modal Content Component
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ModalContent({ t, type }: { t: any, type: any }) {
     const Icon = type.icon;
 

@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Wrench, ChevronRight } from "lucide-react";
+import { BookOpen, Wrench } from "lucide-react";
 
 export function HeroSection() {
     const t = useTranslations("Hero");

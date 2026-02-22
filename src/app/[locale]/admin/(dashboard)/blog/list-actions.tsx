@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { toggleBlogPublish, toggleBlogFeatured, deleteBlogPost } from "@/features/blog/actions/mutations";
 import { ConfirmDialog } from "@/features/admin/components/confirm-dialog";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Star, StarOff, Trash2 } from "lucide-react";
 
@@ -12,18 +13,21 @@ export function BlogListActions({ id, published, featured }: Props) {
     const router = useRouter();
 
     async function handleTogglePublish() {
-        await toggleBlogPublish(id, !published);
-        router.refresh();
+        const result = await toggleBlogPublish(id, !published);
+        if (result.error) toast.error(result.error);
+        else router.refresh();
     }
 
     async function handleToggleFeatured() {
-        await toggleBlogFeatured(id, !featured);
-        router.refresh();
+        const result = await toggleBlogFeatured(id, !featured);
+        if (result.error) toast.error(result.error);
+        else router.refresh();
     }
 
     async function handleDelete() {
-        await deleteBlogPost(id);
-        router.refresh();
+        const result = await deleteBlogPost(id);
+        if (result.error) toast.error(result.error);
+        else router.refresh();
     }
 
     return (

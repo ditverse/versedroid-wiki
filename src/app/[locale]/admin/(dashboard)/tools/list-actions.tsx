@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { toggleToolPublish, deleteToolArticle } from "@/features/tools/actions/mutations";
 import { ConfirmDialog } from "@/features/admin/components/confirm-dialog";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Trash2 } from "lucide-react";
 
@@ -12,13 +13,15 @@ export function ToolListActions({ id, published }: Props) {
     const router = useRouter();
 
     async function handleToggle() {
-        await toggleToolPublish(id, !published);
-        router.refresh();
+        const result = await toggleToolPublish(id, !published);
+        if (result.error) toast.error(result.error);
+        else router.refresh();
     }
 
     async function handleDelete() {
-        await deleteToolArticle(id);
-        router.refresh();
+        const result = await deleteToolArticle(id);
+        if (result.error) toast.error(result.error);
+        else router.refresh();
     }
 
     return (

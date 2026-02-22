@@ -93,6 +93,7 @@ export function WhyModdingSection() {
     );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ClusterNode({ position, icon: Icon, title, desc }: { position: string, icon: any, title: string, desc: string }) {
     return (
         <div className={`absolute ${position} flex flex-col items-center text-center max-w-[140px] group cursor-default`}>

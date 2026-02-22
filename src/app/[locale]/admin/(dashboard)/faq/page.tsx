@@ -1,5 +1,4 @@
-import { unstable_cache } from "next/cache";
-import { createStaticClient } from "@/lib/supabase/static";
+import { createClient } from "@/lib/supabase/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,22 +12,18 @@ import {
 import { Plus } from "lucide-react";
 import { FaqListActions } from "./list-actions";
 
-const getAdminFaqArticles = unstable_cache(
-    async () => {
-        const supabase = createStaticClient();
-        const { data } = await supabase
-            .from("faq_articles")
-            .select(`
-                id, slug, icon, sort_order, published, created_at,
-                faq_article_translations (locale, title),
-                faq_categories!inner (key)
-            `)
-            .order("sort_order", { ascending: true });
-        return data ?? [];
-    },
-    ["admin-faq-articles"],
-    { revalidate: 30 }
-);
+async function getAdminFaqArticles() {
+    const supabase = await createClient();
+    const { data } = await supabase
+        .from("faq_articles")
+        .select(`
+            id, slug, icon, sort_order, published, created_at,
+            faq_article_translations (locale, title),
+            faq_categories!inner (key)
+        `)
+        .order("sort_order", { ascending: true });
+    return data ?? [];
+}
 
 export default async function AdminFaqListPage() {
     const articles = await getAdminFaqArticles();

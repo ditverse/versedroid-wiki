@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 type ToolArticleInput = {
     slug: string;
@@ -51,7 +51,14 @@ export async function createToolArticle(input: ToolArticleInput) {
         if (tErr) return { error: tErr.message };
     }
 
-    revalidatePath("/tools");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-categories");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-adjacent");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-tool-articles");
     return { id: article.id };
 }
 
@@ -91,8 +98,14 @@ export async function updateToolArticle(id: string, input: ToolArticleInput) {
         if (tErr) return { error: tErr.message };
     }
 
-    revalidatePath("/tools");
-    revalidatePath(`/tools/${input.slug}`);
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-categories");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-adjacent");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-tool-articles");
     return { success: true };
 }
 
@@ -101,7 +114,14 @@ export async function deleteToolArticle(id: string) {
     const { error } = await supabase.from("tool_articles").delete().eq("id", id);
     if (error) return { error: error.message };
 
-    revalidatePath("/tools");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-categories");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-adjacent");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-tool-articles");
     return { success: true };
 }
 
@@ -113,6 +133,13 @@ export async function toggleToolPublish(id: string, published: boolean) {
         .eq("id", id);
     if (error) return { error: error.message };
 
-    revalidatePath("/tools");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-categories");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-by-slug");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("tool-adjacent");
+    // @ts-expect-error Ignore Next.js 15+ types requiring 2 args
+    revalidateTag("admin-tool-articles");
     return { success: true };
 }

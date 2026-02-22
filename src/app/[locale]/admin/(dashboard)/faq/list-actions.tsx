@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { toggleFaqPublish, deleteFaqArticle } from "@/features/faq/actions/mutations";
 import { ConfirmDialog } from "@/features/admin/components/confirm-dialog";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Trash2 } from "lucide-react";
 
@@ -15,13 +16,15 @@ export function FaqListActions({ id, published }: FaqListActionsProps) {
     const router = useRouter();
 
     async function handleToggle() {
-        await toggleFaqPublish(id, !published);
-        router.refresh();
+        const result = await toggleFaqPublish(id, !published);
+        if (result.error) toast.error(result.error);
+        else router.refresh();
     }
 
     async function handleDelete() {
-        await deleteFaqArticle(id);
-        router.refresh();
+        const result = await deleteFaqArticle(id);
+        if (result.error) toast.error(result.error);
+        else router.refresh();
     }
 
     return (

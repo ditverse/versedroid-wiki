@@ -66,8 +66,8 @@ export const getFaqCategories = unstable_cache(
             };
         });
     },
-    ["faq-categories"],
-    { revalidate: LISTING_REVALIDATE }
+    ["faq-categories-key"],
+    { tags: ["faq-categories"], revalidate: LISTING_REVALIDATE }
 );
 
 /**
@@ -100,8 +100,8 @@ export const getFaqBySlug = unstable_cache(
 
         return mapFaqArticle(data as Record<string, unknown>);
     },
-    ["faq-by-slug"],
-    { revalidate: CONTENT_REVALIDATE }
+    ["faq-by-slug-key"],
+    { tags: ["faq-by-slug"], revalidate: CONTENT_REVALIDATE }
 );
 
 /**
@@ -151,8 +151,8 @@ export const getAdjacentFaqArticles = unstable_cache(
                     : null,
         };
     },
-    ["faq-adjacent"],
-    { revalidate: LISTING_REVALIDATE }
+    ["faq-adjacent-key"],
+    { tags: ["faq-adjacent"], revalidate: LISTING_REVALIDATE }
 );
 
 /**

@@ -43,12 +43,10 @@ function createBlock(type: string): ContentBlock {
 
 function BlockEditor({
     block,
-    index,
     onChange,
     onRemove,
 }: {
     block: ContentBlock;
-    index: number;
     onChange: (block: ContentBlock) => void;
     onRemove: () => void;
 }) {
@@ -214,7 +212,6 @@ export function ContentEditor({ value, onChange }: ContentEditorProps) {
                 <BlockEditor
                     key={i}
                     block={block}
-                    index={i}
                     onChange={(b) => updateBlock(i, b)}
                     onRemove={() => removeBlock(i)}
                 />

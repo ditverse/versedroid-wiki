@@ -51,8 +51,8 @@ export const getBlogPosts = unstable_cache(
             mapBlogPost(row as Record<string, unknown>)
         );
     },
-    ["blog-posts"],
-    { revalidate: LISTING_REVALIDATE }
+    ["blog-posts-key"],
+    { tags: ["blog-posts"], revalidate: LISTING_REVALIDATE }
 );
 
 /**
@@ -90,8 +90,8 @@ export const getFeaturedPost = unstable_cache(
 
         return mapBlogPost(data as Record<string, unknown>);
     },
-    ["blog-featured"],
-    { revalidate: LISTING_REVALIDATE }
+    ["blog-featured-key"],
+    { tags: ["blog-featured"], revalidate: LISTING_REVALIDATE }
 );
 
 /**
@@ -128,8 +128,8 @@ export const getBlogBySlug = unstable_cache(
 
         return mapBlogPost(data as Record<string, unknown>);
     },
-    ["blog-by-slug"],
-    { revalidate: CONTENT_REVALIDATE }
+    ["blog-by-slug-key"],
+    { tags: ["blog-by-slug"], revalidate: CONTENT_REVALIDATE }
 );
 
 /**
@@ -187,8 +187,8 @@ export const getRelatedPosts = unstable_cache(
             mapBlogPost(row as Record<string, unknown>)
         );
     },
-    ["blog-related"],
-    { revalidate: CONTENT_REVALIDATE }
+    ["blog-related-key"],
+    { tags: ["blog-related"], revalidate: CONTENT_REVALIDATE }
 );
 
 /**
