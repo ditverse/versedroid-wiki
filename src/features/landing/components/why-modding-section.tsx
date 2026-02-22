@@ -33,7 +33,7 @@ export function WhyModdingSection() {
                         {/* Background Ambient Glow */}
                         <div className="absolute inset-0 bg-vd-accent/5 blur-[100px] rounded-full scale-150 animate-pulse-slow" />
 
-                        <div className="relative w-[400px] h-[400px] sm:w-[500px] sm:h-[500px] flex items-center justify-center">
+                        <div className="relative w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] md:w-[500px] md:h-[500px] flex items-center justify-center">
 
                             {/* Connecting Lines (SVG) */}
                             <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-md">
@@ -55,9 +55,9 @@ export function WhyModdingSection() {
                             </svg>
 
                             {/* Center Node */}
-                            <div className="relative z-20 flex h-32 w-32 items-center justify-center rounded-full bg-vd-bg-secondary border-4 border-vd-bg-primary shadow-2xl ring-4 ring-vd-accent/20 transition-transform duration-500 hover:scale-105">
+                            <div className="relative z-20 flex h-24 w-24 sm:h-32 sm:w-32 items-center justify-center rounded-full bg-vd-bg-secondary border-4 border-vd-bg-primary shadow-2xl ring-4 ring-vd-accent/20 transition-transform duration-500 hover:scale-105">
                                 <div className="absolute inset-0 rounded-full bg-vd-accent/5 blur-md" />
-                                <Smartphone className="h-12 w-12 text-vd-accent" />
+                                <Smartphone className="h-10 w-10 sm:h-12 sm:w-12 text-vd-accent" />
                             </div>
 
                             {/* Satellite Nodes */}
@@ -96,14 +96,14 @@ export function WhyModdingSection() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ClusterNode({ position, icon: Icon, title, desc }: { position: string, icon: any, title: string, desc: string }) {
     return (
-        <div className={`absolute ${position} flex flex-col items-center text-center max-w-[140px] group cursor-default`}>
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-vd-accent/10 group-hover:border-vd-accent/30 dark:bg-slate-800/50 dark:border-slate-700">
-                <Icon className="h-7 w-7 text-vd-text-primary transition-colors group-hover:text-vd-accent" />
+        <div className={`absolute ${position} flex flex-col items-center text-center max-w-[120px] sm:max-w-[140px] group cursor-default`}>
+            <div className="mb-2 sm:mb-4 flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-vd-accent/10 group-hover:border-vd-accent/30 dark:bg-slate-800/50 dark:border-slate-700">
+                <Icon className="h-5 w-5 sm:h-7 sm:w-7 text-vd-text-primary transition-colors group-hover:text-vd-accent" />
             </div>
-            <h3 className="mb-1 text-sm font-bold text-vd-text-primary transition-colors group-hover:text-vd-accent">
+            <h3 className="mb-1 text-xs sm:text-sm font-bold text-vd-text-primary transition-colors group-hover:text-vd-accent leading-tight">
                 {title}
             </h3>
-            <p className="text-xs leading-relaxed text-vd-text-secondary">
+            <p className="text-[10px] sm:text-xs leading-tight sm:leading-relaxed text-vd-text-secondary hidden sm:block">
                 {desc}
             </p>
         </div>

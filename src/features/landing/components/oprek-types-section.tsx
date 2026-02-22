@@ -129,31 +129,33 @@ export function OprekTypesSection() {
                     ))}
                 </div>
 
-                {/* Secondary Grid (ROM, Kernel, Modules) */}
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {/* Secondary Grid (ROM, Kernel, Modules) - Swipeable on mobile */}
+                <div className="flex -mx-4 gap-4 overflow-x-auto px-4 pb-6 pt-2 snap-x snap-mandatory sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 sm:pt-0 lg:grid-cols-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                     {secondaryTypes.map((type, i) => (
-                        <ScrollReveal key={type.slug} delay={200 + i * 50}>
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <div
-                                        className="group flex h-full cursor-pointer flex-col rounded-xl border border-vd-border bg-vd-bg-secondary p-6 text-left transition-all hover:border-vd-accent/50 hover:bg-vd-bg-secondary/80"
-                                    >
-                                        <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-vd-bg-tertiary text-vd-text-primary group-hover:bg-vd-accent/10 group-hover:text-vd-accent transition-colors">
-                                            <type.icon className="h-5 w-5" />
+                        <div key={type.slug} className="w-[80vw] shrink-0 snap-center sm:w-auto transition-transform active:scale-[0.98] sm:active:scale-100">
+                            <ScrollReveal delay={200 + i * 50}>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <div
+                                            className="group flex h-full cursor-pointer flex-col rounded-xl border border-vd-border bg-vd-bg-secondary p-6 text-left transition-all hover:border-vd-accent/50 hover:bg-vd-bg-secondary/80 hover:shadow-lg hover:shadow-vd-accent/5"
+                                        >
+                                            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-vd-bg-tertiary text-vd-text-primary group-hover:bg-vd-accent/10 group-hover:text-vd-accent transition-colors">
+                                                <type.icon className="h-5 w-5" />
+                                            </div>
+                                            <h3 className="mb-2 text-base font-semibold text-vd-text-primary">
+                                                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                                {t(type.titleKey as any)}
+                                            </h3>
+                                            <p className="text-sm leading-relaxed text-vd-text-secondary">
+                                                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                                {t(type.descKey as any)}
+                                            </p>
                                         </div>
-                                        <h3 className="mb-2 text-base font-semibold text-vd-text-primary">
-                                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                                            {t(type.titleKey as any)}
-                                        </h3>
-                                        <p className="text-sm leading-relaxed text-vd-text-secondary">
-                                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                                            {t(type.descKey as any)}
-                                        </p>
-                                    </div>
-                                </DialogTrigger>
-                                <ModalContent t={t} type={type} />
-                            </Dialog>
-                        </ScrollReveal>
+                                    </DialogTrigger>
+                                    <ModalContent t={t} type={type} />
+                                </Dialog>
+                            </ScrollReveal>
+                        </div>
                     ))}
                 </div>
             </div>

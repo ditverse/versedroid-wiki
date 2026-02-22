@@ -6,17 +6,20 @@ const faqLinks = [
     { href: "/faq/unlock-bootloader", label: "Unlock Bootloader" },
     { href: "/faq/root", label: "Root" },
     { href: "/faq/custom-rom", label: "Custom ROM" },
-    { href: "/faq/custom-kernel", label: "Custom Kernel" },
 ];
 
 const socialLinks = [
     {
-        href: "https://instagram.com/versedroid",
+        href: "https://instagram.com/rise.dit",
         label: "Instagram",
     },
     {
         href: "https://youtube.com/@versedroid",
         label: "YouTube",
+    },
+    {
+        href: "https://tiktok.com/@versedroid",
+        label: "TikTok",
     },
 ];
 
