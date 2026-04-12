@@ -1,15 +1,23 @@
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { DM_Serif_Display, DM_Sans, DM_Mono } from "next/font/google";
 
-export const plusJakarta = Plus_Jakarta_Sans({
+export const dmSerifDisplay = DM_Serif_Display({
     subsets: ["latin"],
-    variable: "--font-plus-jakarta",
+    variable: "--font-dm-display",
     display: "swap",
-    weight: ["400", "500", "600", "700", "800"],
+    weight: ["400"],
+    style: ["normal", "italic"],
 });
 
-export const jetbrainsMono = JetBrains_Mono({
+export const dmSans = DM_Sans({
     subsets: ["latin"],
-    variable: "--font-jetbrains",
+    variable: "--font-dm-sans",
+    display: "swap",
+    weight: ["300", "400", "500", "600"],
+});
+
+export const dmMono = DM_Mono({
+    subsets: ["latin"],
+    variable: "--font-dm-mono",
     display: "swap",
     weight: ["400", "500"],
 });

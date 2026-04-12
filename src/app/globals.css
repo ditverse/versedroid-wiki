@@ -5,15 +5,16 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ============================================================
-   VERSEDROID WIKI — Design System
-   Dark theme Android modding wiki
+   VERSEDROID WIKI — Design System v2
+   Dark-first, light-mode capable
    ============================================================ */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-plus-jakarta);
-  --font-mono: var(--font-jetbrains);
+  --font-sans: var(--font-dm-sans);
+  --font-mono: var(--font-dm-mono);
+  --font-display: var(--font-dm-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -51,113 +52,159 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  /* Versedroid Custom Colors — reference CSS vars so .light can override */
-  --color-vd-bg-primary: var(--vd-bg-primary);
-  --color-vd-bg-secondary: var(--vd-bg-secondary);
-  --color-vd-bg-tertiary: var(--vd-bg-tertiary);
+  /* Versedroid Design Tokens — reference CSS vars so .light can override */
+  --color-vd-bg: var(--vd-bg);
+  --color-vd-surface: var(--vd-surface);
   --color-vd-border: var(--vd-border);
-  --color-vd-text-primary: var(--vd-text-primary);
+  --color-vd-border-hover: var(--vd-border-hover);
+  --color-vd-text: var(--vd-text);
   --color-vd-text-secondary: var(--vd-text-secondary);
+  --color-vd-text-muted: var(--vd-text-muted);
   --color-vd-accent: var(--vd-accent);
-  --color-vd-danger: var(--vd-danger);
-  --color-vd-info: var(--vd-info);
+  --color-vd-accent-surface: var(--vd-accent-surface);
   --color-vd-warning: var(--vd-warning);
-}
-
-:root {
-  --radius: 0.625rem;
-
-  /* ── Versedroid vd-* tokens (dark mode default) ── */
-  --vd-bg-primary: #0A0A0F;
-  --vd-bg-secondary: #12121A;
-  --vd-bg-tertiary: #1A1A27;
-  --vd-border: #2A2A3A;
-  --vd-text-primary: #EAEAF0;
-  --vd-text-secondary: #8888A0;
-  --vd-accent: #00E599;
-  --vd-danger: #FF4D6A;
-  --vd-info: #3B82F6;
-  --vd-warning: #F59E0B;
-
-  /* ── shadcn tokens (dark mode default) ── */
-  --background: #0A0A0F;
-  --foreground: #EAEAF0;
-  --card: #12121A;
-  --card-foreground: #EAEAF0;
-  --popover: #12121A;
-  --popover-foreground: #EAEAF0;
-  --primary: #00E599;
-  --primary-foreground: #0A0A0F;
-  --secondary: #1A1A27;
-  --secondary-foreground: #EAEAF0;
-  --muted: #1A1A27;
-  --muted-foreground: #8888A0;
-  --accent: #00E599;
-  --accent-foreground: #0A0A0F;
-  --destructive: #FF4D6A;
-  --border: #2A2A3A;
-  --input: #2A2A3A;
-  --ring: #00E599;
-  --chart-1: #00E599;
-  --chart-2: #3B82F6;
-  --chart-3: #F59E0B;
-  --chart-4: #FF4D6A;
-  --chart-5: #8888A0;
-  --sidebar: #0A0A0F;
-  --sidebar-foreground: #EAEAF0;
-  --sidebar-primary: #00E599;
-  --sidebar-primary-foreground: #0A0A0F;
-  --sidebar-accent: #1A1A27;
-  --sidebar-accent-foreground: #EAEAF0;
-  --sidebar-border: #2A2A3A;
-  --sidebar-ring: #00E599;
+  --color-vd-warning-surface: var(--vd-warning-surface);
+  --color-vd-badge-neutral: var(--vd-badge-neutral);
+  --color-vd-danger: var(--vd-danger);
+  --color-vd-danger-surface: var(--vd-danger-surface);
+  /* Legacy aliases for admin/detail pages */
+  --color-vd-bg-primary: var(--vd-bg);
+  --color-vd-bg-secondary: var(--vd-surface);
+  --color-vd-bg-tertiary: var(--vd-border);
+  --color-vd-text-primary: var(--vd-text);
+  --color-vd-info: var(--vd-info);
 }
 
 /* ============================================================
-   Light Mode — Warm Slate (Paper-like)
-   Warm, paper-like palette using Stone/Warm Gray tones.
-   Applied when <html class="light"> is set by ThemeProvider.
+   DARK MODE — default (applied to :root)
+   Surface is meaningfully brighter than bg so cards are visible
+   ============================================================ */
+:root {
+  --radius: 0.75rem;
+
+  /* ── Versedroid tokens ── */
+  --vd-bg: #0D0D0D;
+  --vd-surface: #171717;          /* was #0F0F0F — much more visible */
+  --vd-border: #272727;           /* was #1A1A1A — clear on new surface */
+  --vd-border-hover: #383838;     /* was #2A2A2A */
+  --vd-text: #F0EEE6;
+  --vd-text-secondary: #888888;
+  --vd-text-muted: #555555;
+  --vd-accent: #4CAF6A;
+  --vd-accent-surface: #112617;   /* dark enough for new surface */
+  --vd-warning: #CA8A04;
+  --vd-warning-surface: #201B08;
+  --vd-badge-neutral: #222222;
+  --vd-danger: #EF4444;
+  --vd-danger-surface: #2A1010;
+  --vd-info: #3B82F6;
+
+  /* ── Terminal tokens (dark) ── */
+  --vd-terminal-bg: #141414;
+  --vd-terminal-header: #1A1A1A;
+  --vd-terminal-border: #272727;
+  --vd-terminal-text: #E8E6DE;
+  --vd-terminal-dim: #555555;
+  --vd-terminal-prompt: #4CAF6A;
+  --vd-terminal-error: #EF4444;
+
+  /* ── shadcn tokens (dark) ── */
+  --background: #0D0D0D;
+  --foreground: #F0EEE6;
+  --card: #171717;
+  --card-foreground: #F0EEE6;
+  --popover: #171717;
+  --popover-foreground: #F0EEE6;
+  --primary: #4CAF6A;
+  --primary-foreground: #0D0D0D;
+  --secondary: #272727;
+  --secondary-foreground: #F0EEE6;
+  --muted: #272727;
+  --muted-foreground: #888888;
+  --accent: #4CAF6A;
+  --accent-foreground: #0D0D0D;
+  --destructive: #EF4444;
+  --border: #272727;
+  --input: #272727;
+  --ring: #4CAF6A;
+  --chart-1: #4CAF6A;
+  --chart-2: #3B82F6;
+  --chart-3: #CA8A04;
+  --chart-4: #EF4444;
+  --chart-5: #888888;
+  --sidebar: #0D0D0D;
+  --sidebar-foreground: #F0EEE6;
+  --sidebar-primary: #4CAF6A;
+  --sidebar-primary-foreground: #0D0D0D;
+  --sidebar-accent: #272727;
+  --sidebar-accent-foreground: #F0EEE6;
+  --sidebar-border: #272727;
+  --sidebar-ring: #4CAF6A;
+}
+
+/* ============================================================
+   LIGHT MODE — applied when <html class="light">
+   Warm off-white background, white cards, near-black text
    ============================================================ */
 .light {
-  /* ── shadcn tokens ── */
-  --background: #F5F4F0;
-  --foreground: #1C1917;
-  --card: #FDFCF8;
-  --card-foreground: #1C1917;
-  --popover: #FDFCF8;
-  --popover-foreground: #1C1917;
-  --primary: #00B377;
-  --primary-foreground: #FAFAFA;
-  --secondary: #E7E5E4;
-  --secondary-foreground: #1C1917;
-  --muted: #F5F4F0;
-  --muted-foreground: #57534E;
-  --accent: #00B377;
-  --accent-foreground: #FAFAFA;
-  --destructive: #EF4444;
-  --border: #E2DDD5;
-  --input: #E2DDD5;
-  --ring: #00B377;
-  --sidebar: #F2EFE9;
-  --sidebar-foreground: #1C1917;
-  --sidebar-primary: #00B377;
-  --sidebar-primary-foreground: #FAFAFA;
-  --sidebar-accent: #E7E5E4;
-  --sidebar-accent-foreground: #1C1917;
-  --sidebar-border: #E2DDD5;
-  --sidebar-ring: #00B377;
+  /* ── Versedroid tokens ── */
+  --vd-bg: #F8F6F0;
+  --vd-surface: #FFFFFF;
+  --vd-border: #E4E1D8;
+  --vd-border-hover: #C9C5BB;
+  --vd-text: #18181A;
+  --vd-text-secondary: #68665E;
+  --vd-text-muted: #9E9A8E;
+  --vd-accent: #3A9B53;           /* darker green readable on white */
+  --vd-accent-surface: #EBF5EE;
+  --vd-warning: #926500;
+  --vd-warning-surface: #FFF8E6;
+  --vd-badge-neutral: #F0EDE6;
+  --vd-danger: #DC2626;
+  --vd-danger-surface: #FEECEC;
+  --vd-info: #2563EB;
 
-  /* ── vd-* tokens (Warm Slate) ── */
-  --vd-bg-primary: #F5F4F0;
-  --vd-bg-secondary: #FDFCF8;
-  --vd-bg-tertiary: #E7E5E4;
-  --vd-border: #E2DDD5;
-  --vd-text-primary: #1C1917;
-  --vd-text-secondary: #57534E;
-  --vd-accent: #00B377;
-  --vd-danger: #EF4444;
-  --vd-info: #0284C7;
-  --vd-warning: #B45309;
+  /* ── Terminal tokens (light) — Catppuccin Latte ── */
+  --vd-terminal-bg: #EFF1F5;
+  --vd-terminal-header: #E6E9EF;
+  --vd-terminal-border: #CCD0DA;
+  --vd-terminal-text: #4C4F69;
+  --vd-terminal-dim: #9CA0B0;
+  --vd-terminal-prompt: #40A02B;
+  --vd-terminal-error: #D20F39;
+
+  /* ── shadcn tokens (light) ── */
+  --background: #F8F6F0;
+  --foreground: #18181A;
+  --card: #FFFFFF;
+  --card-foreground: #18181A;
+  --popover: #FFFFFF;
+  --popover-foreground: #18181A;
+  --primary: #3A9B53;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F0EDE6;
+  --secondary-foreground: #18181A;
+  --muted: #F0EDE6;
+  --muted-foreground: #68665E;
+  --accent: #3A9B53;
+  --accent-foreground: #FFFFFF;
+  --destructive: #DC2626;
+  --border: #E4E1D8;
+  --input: #E4E1D8;
+  --ring: #3A9B53;
+  --chart-1: #3A9B53;
+  --chart-2: #2563EB;
+  --chart-3: #926500;
+  --chart-4: #DC2626;
+  --chart-5: #68665E;
+  --sidebar: #F8F6F0;
+  --sidebar-foreground: #18181A;
+  --sidebar-primary: #3A9B53;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F0EDE6;
+  --sidebar-accent-foreground: #18181A;
+  --sidebar-border: #E4E1D8;
+  --sidebar-ring: #3A9B53;
 }
 
 @layer base {
@@ -167,213 +214,118 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: var(--font-dm-sans), system-ui, sans-serif;
   }
 
-  /* Scrollbar — dark mode */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #0A0A0F;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #2A2A3A;
-    border-radius: 3px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #3A3A4A;
-  }
-
-  /* Scrollbar — light mode */
-  .light ::-webkit-scrollbar-track {
-    background: #EEF0F6;
-  }
-
-  .light ::-webkit-scrollbar-thumb {
-    background: #C8CCE0;
-  }
-
-  .light ::-webkit-scrollbar-thumb:hover {
-    background: #A8AECE;
-  }
+  /* Scrollbar — dark */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--vd-bg); }
+  ::-webkit-scrollbar-thumb { background: var(--vd-border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--vd-border-hover); }
 }
 
 /* ============================================================
    Animations
    ============================================================ */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(32px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes glow-pulse {
-
-  0%,
-  100% {
-    opacity: 0.5;
-  }
-
-  50% {
-    opacity: 0.8;
-  }
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 0.8; }
 }
 
-@keyframes underline-slide {
-  from {
-    transform: scaleX(0);
-  }
-
-  to {
-    transform: scaleX(1);
-  }
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
-  opacity: 0;
-}
+.animate-fade-in    { animation: fade-in  0.6s ease-out forwards; opacity: 0; }
+.animate-slide-up   { animation: slide-up 0.7s ease-out forwards; opacity: 0; }
+.animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+.animate-cursor-blink { animation: cursor-blink 1s step-end infinite; }
 
-.animate-slide-up {
-  animation: slide-up 0.7s ease-out forwards;
-  opacity: 0;
-}
-
-.animate-glow-pulse {
-  animation: glow-pulse 3s ease-in-out infinite;
-}
-
-/* Stagger delay utilities */
-.stagger-1 {
-  animation-delay: 50ms;
-}
-
-.stagger-2 {
-  animation-delay: 100ms;
-}
-
-.stagger-3 {
-  animation-delay: 150ms;
-}
-
-.stagger-4 {
-  animation-delay: 200ms;
-}
-
-.stagger-5 {
-  animation-delay: 250ms;
-}
-
-.stagger-6 {
-  animation-delay: 300ms;
-}
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
 
 /* ============================================================
-   Callout Boxes
+   Callout Boxes — use CSS vars so they adapt to light/dark
    ============================================================ */
-.callout {
-  @apply rounded-lg border p-4 my-4;
-}
-
-.callout-info {
-  @apply border-vd-info/30 bg-vd-info/5;
-}
-
-.callout-warning {
-  @apply border-vd-warning/30 bg-vd-warning/5;
-}
-
-.callout-danger {
-  @apply border-vd-danger/30 bg-vd-danger/5;
-}
-
-.callout-tip {
-  @apply border-vd-accent/30 bg-vd-accent/5;
-}
+.callout { @apply rounded-lg border p-4 my-4; }
+.callout-info    { border-color: rgba(59,130,246,0.3);  background-color: rgba(59,130,246,0.05); }
+.callout-warning { border-color: rgba(202,138,4,0.3);   background-color: rgba(202,138,4,0.05); }
+.callout-danger  { border-color: rgba(239,68,68,0.3);   background-color: rgba(239,68,68,0.05); }
+.callout-tip     { border-color: rgba(76,175,106,0.3);  background-color: rgba(76,175,106,0.05); }
 
 /* ============================================================
-   Glow Effects
-   ============================================================ */
-.accent-glow {
-  box-shadow: 0 0 40px rgba(0, 229, 153, 0.15),
-    0 0 80px rgba(0, 229, 153, 0.08);
-}
-
-.accent-glow-strong {
-  box-shadow: 0 0 20px rgba(0, 229, 153, 0.3),
-    0 0 60px rgba(0, 229, 153, 0.15),
-    0 0 100px rgba(0, 229, 153, 0.05);
-}
-
-/* ============================================================
-   Prose / Content Styling
+   Prose / Content Styling — uses CSS vars
    ============================================================ */
 .prose-vd h1 {
-  @apply text-3xl font-bold text-vd-text-primary mb-6;
+  font-family: var(--font-dm-display), serif;
+  @apply text-3xl font-normal mb-6;
+  color: var(--vd-text);
+  letter-spacing: -0.03em;
 }
-
 .prose-vd h2 {
-  @apply text-2xl font-bold text-vd-text-primary mt-10 mb-4;
+  font-family: var(--font-dm-display), serif;
+  @apply text-2xl font-normal mt-10 mb-4;
+  color: var(--vd-text);
+  letter-spacing: -0.025em;
 }
-
 .prose-vd h3 {
-  @apply text-xl font-semibold text-vd-text-primary mt-8 mb-3;
+  font-family: var(--font-dm-display), serif;
+  @apply text-xl font-normal mt-8 mb-3;
+  color: var(--vd-text);
 }
-
-.prose-vd p {
-  @apply text-vd-text-secondary leading-relaxed mb-4;
-}
-
-.prose-vd ul {
-  @apply list-disc pl-6 mb-4 text-vd-text-secondary;
-}
-
-.prose-vd ol {
-  @apply list-decimal pl-6 mb-4 text-vd-text-secondary;
-}
-
-.prose-vd li {
-  @apply mb-1;
-}
-
-.prose-vd a {
-  @apply text-vd-accent hover:underline;
-}
-
-.prose-vd strong {
-  @apply text-vd-text-primary font-semibold;
-}
-
+.prose-vd p        { color: var(--vd-text-secondary); @apply leading-relaxed mb-4 text-sm; line-height: 1.7; }
+.prose-vd ul       { color: var(--vd-text-secondary); @apply list-disc pl-6 mb-4 text-sm; }
+.prose-vd ol       { color: var(--vd-text-secondary); @apply list-decimal pl-6 mb-4 text-sm; }
+.prose-vd li       { @apply mb-1; }
+.prose-vd a        { color: var(--vd-accent); @apply hover:underline; }
+.prose-vd strong   { color: var(--vd-text); @apply font-semibold; }
 .prose-vd code {
-  @apply bg-vd-bg-tertiary text-vd-accent px-1.5 py-0.5 rounded text-sm font-mono;
+  background: var(--vd-border);
+  color: var(--vd-accent);
+  @apply px-1.5 py-0.5 rounded;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 12.5px;
 }
-
 .prose-vd pre {
-  @apply bg-vd-bg-secondary border border-vd-border rounded-lg p-4 overflow-x-auto mb-4;
+  background: var(--vd-surface);
+  border: 1px solid var(--vd-border);
+  @apply rounded-lg p-4 overflow-x-auto mb-4;
+}
+.prose-vd pre code { @apply bg-transparent px-0 py-0; }
+
+/* ============================================================
+   Card utility — CSS vars, theme-aware
+   ============================================================ */
+.vd-card {
+  background: var(--vd-surface);
+  border: 1px solid var(--vd-border);
+  border-radius: 12px;
+  transition: border-color 0.15s ease;
+}
+.vd-card:hover {
+  border-color: var(--vd-border-hover);
 }
 
-.prose-vd pre code {
-  @apply bg-transparent px-0 py-0;
+/* ============================================================
+   Section divider
+   ============================================================ */
+.section-divider {
+  border-top: 1px solid var(--vd-border);
+  margin-left: 40px;
+  margin-right: 40px;
 }

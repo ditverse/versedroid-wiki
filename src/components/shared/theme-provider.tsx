@@ -1,12 +1,6 @@
 "use client";
 
-import {
-    createContext,
-    useContext,
-    useEffect,
-    useState,
-    useCallback,
-} from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 
 type Theme = "dark" | "light";
 
@@ -22,11 +16,10 @@ const STORAGE_KEY = "vd-theme";
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [theme, setTheme] = useState<Theme>("dark");
 
-    // Read from localStorage on mount (client-only)
+    // Read from localStorage on mount
     useEffect(() => {
         const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
         if (stored === "light" || stored === "dark") {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             setTheme(stored);
         }
     }, []);
@@ -34,8 +27,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Apply class to <html> whenever theme changes
     useEffect(() => {
         const root = document.documentElement;
-        root.classList.remove("dark", "light");
-        root.classList.add(theme);
+        if (theme === "light") {
+            root.classList.add("light");
+            root.classList.remove("dark");
+        } else {
+            root.classList.remove("light");
+            root.classList.add("dark");
+        }
         localStorage.setItem(STORAGE_KEY, theme);
     }, [theme]);
 
@@ -52,8 +50,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export function useTheme(): ThemeContextValue {
     const ctx = useContext(ThemeContext);
-    if (!ctx) {
-        throw new Error("useTheme must be used inside <ThemeProvider>");
-    }
+    if (!ctx) throw new Error("useTheme must be used inside <ThemeProvider>");
     return ctx;
 }

@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { ToolArticleForm } from "@/features/admin/components/tool-article-form";
+import { AdminPageHeader } from "@/features/admin/components/admin-page-header";
 
 async function getCategories() {
     const supabase = await createClient();
@@ -11,7 +12,7 @@ export default async function AdminToolNewPage() {
     const categories = await getCategories();
     return (
         <div>
-            <h1 className="mb-6 text-2xl font-bold text-vd-text-primary">New Tool Article</h1>
+            <AdminPageHeader title="New Tool Article" eyebrow="Tools" />
             <ToolArticleForm mode="create" categories={categories} />
         </div>
     );

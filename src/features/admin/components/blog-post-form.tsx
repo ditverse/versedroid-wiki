@@ -96,74 +96,85 @@ export function BlogPostForm({ mode, postId, initial }: BlogFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit}>
             {error && (
-                <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-400">{error}</div>
+                <div className="mb-6 rounded-lg border border-vd-danger/30 bg-vd-danger-surface p-3 text-sm text-vd-danger">{error}</div>
             )}
 
-            <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                    <Label>Slug</Label>
-                    <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="my-blog-post" className="border-vd-border bg-vd-bg-primary" required />
+            <div className="flex flex-col gap-6 md:flex-row md:items-start">
+                {/* Main content area */}
+                <div className="flex-1 min-w-0 space-y-6">
+                    <LocaleTabs>
+                        {(locale) => (
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label>Title ({locale.toUpperCase()})</Label>
+                                    <Input value={translations[locale].title} onChange={(e) => updateTranslation(locale, "title", e.target.value)} className="border-vd-border bg-vd-bg-primary" required={locale === "id"} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Excerpt ({locale.toUpperCase()})</Label>
+                                    <Textarea value={translations[locale].excerpt} onChange={(e) => updateTranslation(locale, "excerpt", e.target.value)} className="border-vd-border bg-vd-bg-primary" required={locale === "id"} />
+                                </div>
+                                <ContentEditor value={translations[locale].content as never[]} onChange={(blocks) => updateTranslation(locale, "content", blocks)} />
+                            </div>
+                        )}
+                    </LocaleTabs>
                 </div>
-                <div className="space-y-2">
-                    <Label>Category</Label>
-                    <Select value={category} onValueChange={setCategory}>
-                        <SelectTrigger className="border-vd-border bg-vd-bg-primary"><SelectValue /></SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="tutorial">Tutorial</SelectItem>
-                            <SelectItem value="tips">Tips</SelectItem>
-                            <SelectItem value="news">News</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="space-y-2">
-                    <Label>Read Time (min)</Label>
-                    <Input type="number" value={readTime} onChange={(e) => setReadTime(Number(e.target.value))} className="border-vd-border bg-vd-bg-primary" />
-                </div>
-                <div className="space-y-2">
-                    <Label>Author</Label>
-                    <Input value={author} onChange={(e) => setAuthor(e.target.value)} className="border-vd-border bg-vd-bg-primary" />
-                </div>
-                <div className="space-y-2">
-                    <Label>Published Date</Label>
-                    <Input type="date" value={publishedAt} onChange={(e) => setPublishedAt(e.target.value)} className="border-vd-border bg-vd-bg-primary" />
-                </div>
-            </div>
 
-            <div className="flex items-center gap-6">
-                <div className="flex items-center gap-3">
-                    <Switch checked={published} onCheckedChange={setPublished} />
-                    <Label>Published</Label>
-                </div>
-                <div className="flex items-center gap-3">
-                    <Switch checked={featured} onCheckedChange={setFeatured} />
-                    <Label>Featured</Label>
-                </div>
-            </div>
-
-            <LocaleTabs>
-                {(locale) => (
-                    <div className="space-y-4">
-                        <div className="space-y-2">
-                            <Label>Title ({locale.toUpperCase()})</Label>
-                            <Input value={translations[locale].title} onChange={(e) => updateTranslation(locale, "title", e.target.value)} className="border-vd-border bg-vd-bg-primary" required={locale === "id"} />
+                {/* Settings panel */}
+                <div className="w-full md:w-72 shrink-0 space-y-4">
+                    {/* Publish card */}
+                    <div className="rounded-lg border border-vd-border bg-vd-bg-secondary p-4 space-y-4">
+                        <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-vd-text-secondary">Publish</p>
+                        <div className="flex items-center justify-between">
+                            <Label className="cursor-pointer">Published</Label>
+                            <Switch checked={published} onCheckedChange={setPublished} />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <Label className="cursor-pointer">Featured</Label>
+                            <Switch checked={featured} onCheckedChange={setFeatured} />
                         </div>
                         <div className="space-y-2">
-                            <Label>Excerpt ({locale.toUpperCase()})</Label>
-                            <Textarea value={translations[locale].excerpt} onChange={(e) => updateTranslation(locale, "excerpt", e.target.value)} className="border-vd-border bg-vd-bg-primary" required={locale === "id"} />
+                            <Label>Publish Date</Label>
+                            <Input type="date" value={publishedAt} onChange={(e) => setPublishedAt(e.target.value)} className="border-vd-border bg-vd-bg-primary" />
                         </div>
-                        <ContentEditor value={translations[locale].content as never[]} onChange={(blocks) => updateTranslation(locale, "content", blocks)} />
+                        <div className="flex flex-col gap-2 pt-1">
+                            <Button type="submit" disabled={loading} className="w-full bg-vd-accent text-vd-bg-primary hover:bg-vd-accent/90">
+                                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                {mode === "create" ? "Create Post" : "Save Changes"}
+                            </Button>
+                            <Button type="button" variant="outline" onClick={() => router.push("/admin/blog")} className="w-full border-vd-border">Cancel</Button>
+                        </div>
                     </div>
-                )}
-            </LocaleTabs>
 
-            <div className="flex gap-3">
-                <Button type="submit" disabled={loading} className="bg-vd-accent text-vd-bg-primary hover:bg-vd-accent/90">
-                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {mode === "create" ? "Create Post" : "Save Changes"}
-                </Button>
-                <Button type="button" variant="outline" onClick={() => router.push("/admin/blog")} className="border-vd-border">Cancel</Button>
+                    {/* Meta card */}
+                    <div className="rounded-lg border border-vd-border bg-vd-bg-secondary p-4 space-y-3">
+                        <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-vd-text-secondary">Meta</p>
+                        <div className="space-y-2">
+                            <Label>Slug</Label>
+                            <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="my-blog-post" className="border-vd-border bg-vd-bg-primary" required />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Category</Label>
+                            <Select value={category} onValueChange={setCategory}>
+                                <SelectTrigger className="border-vd-border bg-vd-bg-primary"><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="tutorial">Tutorial</SelectItem>
+                                    <SelectItem value="tips">Tips</SelectItem>
+                                    <SelectItem value="news">News</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Read Time (min)</Label>
+                            <Input type="number" value={readTime} onChange={(e) => setReadTime(Number(e.target.value))} className="border-vd-border bg-vd-bg-primary" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Author</Label>
+                            <Input value={author} onChange={(e) => setAuthor(e.target.value)} className="border-vd-border bg-vd-bg-primary" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     );

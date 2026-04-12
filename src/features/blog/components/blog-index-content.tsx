@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
 import type { BlogPost } from "@/features/blog/types";
 import { BlogCard } from "@/features/blog/components/blog-card";
 import { FeaturedPost } from "@/features/blog/components/featured-post";
-import { ScrollReveal } from "@/components/shared/scroll-reveal";
-import { Badge } from "@/components/ui/badge";
 
-const categories = ["all", "tutorial", "tips", "news"] as const;
+const categories = [
+    { key: "all", label: "Semua" },
+    { key: "tutorial", label: "Tutorial" },
+    { key: "tips", label: "Tips & Tricks" },
+    { key: "news", label: "News" },
+] as const;
 
 type BlogIndexContentProps = {
     posts: BlogPost[];
@@ -16,65 +18,64 @@ type BlogIndexContentProps = {
 };
 
 export function BlogIndexContent({ posts, featured }: BlogIndexContentProps) {
-    const t = useTranslations("BlogIndex");
     const [activeCategory, setActiveCategory] = useState<string>("all");
 
-    const filteredPosts = activeCategory === "all"
-        ? posts.filter((p) => !p.featured)
-        : posts.filter((p) => p.category === activeCategory);
+    const filteredPosts =
+        activeCategory === "all"
+            ? posts.filter((p) => !p.featured)
+            : posts.filter((p) => p.category === activeCategory);
 
     return (
-        <section className="px-4 py-16 sm:py-20">
-            <div className="mx-auto max-w-6xl">
-                {/* Header */}
-                <div className="mb-12 text-center">
-                    <h1 className="mb-4 text-3xl font-bold text-vd-text-primary sm:text-4xl md:text-5xl animate-fade-in">
-                        {t("title")}
-                    </h1>
-                    <p className="mx-auto max-w-2xl text-base text-vd-text-secondary sm:text-lg animate-fade-in stagger-2">
-                        {t("subtitle")}
-                    </p>
+        <div style={{ background: "var(--vd-bg)", minHeight: "100vh" }}>
+            {/* Featured Article */}
+            {featured && activeCategory === "all" && (
+                <div className="px-6 pt-10 pb-0">
+                    <div className="mx-auto max-w-[1100px]">
+                        <FeaturedPost post={featured} />
+                    </div>
                 </div>
+            )}
 
-                {/* Featured Post */}
-                {featured && activeCategory === "all" && (
-                    <ScrollReveal>
-                        <div className="mb-10">
-                            <FeaturedPost post={featured} />
+            {/* Filter + Grid */}
+            <div className="px-6 py-10">
+                <div className="mx-auto max-w-[1100px]">
+                    {/* Filter pills */}
+                    <div className="mb-8 flex flex-wrap gap-2">
+                        {categories.map((cat) => {
+                            const isActive = cat.key === activeCategory;
+                            return (
+                                <button
+                                    key={cat.key}
+                                    onClick={() => setActiveCategory(cat.key)}
+                                    className="rounded-full px-4 py-1.5 text-sm transition-colors"
+                                    style={{
+                                        background: isActive ? "var(--vd-accent)" : "transparent",
+                                        color: isActive ? "var(--vd-bg)" : "var(--vd-text-muted)",
+                                        border: isActive ? "1px solid var(--vd-accent)" : "1px solid var(--vd-border)",
+                                    }}
+                                >
+                                    {cat.label}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Blog Grid */}
+                    {filteredPosts.length > 0 ? (
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            {filteredPosts.map((post) => (
+                                <BlogCard key={post.slug} post={post} />
+                            ))}
                         </div>
-                    </ScrollReveal>
-                )}
-
-                {/* Category Filter */}
-                <div className="mb-8 flex flex-wrap gap-2">
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => setActiveCategory(cat)}
-                            className="focus:outline-none"
-                        >
-                            <Badge
-                                variant={activeCategory === cat ? "default" : "secondary"}
-                                className={`cursor-pointer text-xs px-3 py-1.5 transition-colors ${activeCategory === cat
-                                    ? "bg-vd-accent text-vd-bg-primary"
-                                    : "bg-vd-bg-tertiary text-vd-text-secondary hover:text-vd-text-primary"
-                                    }`}
-                            >
-                                {t(cat)}
-                            </Badge>
-                        </button>
-                    ))}
-                </div>
-
-                {/* Blog Grid */}
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {filteredPosts.map((post, i) => (
-                        <ScrollReveal key={post.slug} delay={50 * i}>
-                            <BlogCard post={post} />
-                        </ScrollReveal>
-                    ))}
+                    ) : (
+                        <div className="py-16 text-center">
+                            <p className="text-sm" style={{ color: "var(--vd-text-muted)" }}>
+                                Belum ada artikel. Segera hadir.
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
-        </section>
+        </div>
     );
 }

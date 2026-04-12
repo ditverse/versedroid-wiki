@@ -4,6 +4,7 @@
         "description": "Pelajari seni oprek Android — dari unlock bootloader hingga custom ROM, dengan panduan lengkap dan tools yang tepat."
     },
     "Navbar": {
+        "home": "Home",
         "faq": "FAQ",
         "tools": "Tools",
         "blog": "Blog",
@@ -170,5 +171,89 @@
         "onThisPage": "Di Halaman Ini",
         "home": "Home",
         "backToTop": "Kembali ke atas"
+    },
+    "Landing": {
+        "Hero": {
+            "eyebrow": "Wiki Oprek Android",
+            "titleLine1": "Kuasai Potensi",
+            "titleAccent": "Penuh",
+            "titleEnd": "Android Kamu.",
+            "subtitle": "Panduan oprek terstruktur — dari Unlock Bootloader sampai Custom ROM. Ditulis untuk manusia, bukan robot.",
+            "ctaPrimary": "Mulai Oprek",
+            "ctaSecondary": "Download Tools"
+        },
+        "WhyModding": {
+            "eyebrow": "Kenapa Oprek?",
+            "title": "Ambil kembali kendali perangkatmu.",
+            "b1Title": "CPU & GPU Tanpa Throttle",
+            "b1Desc": "Lepas limiter pabrikan, raih performa penuh perangkatmu.",
+            "b2Title": "Kontrol Penuh Data",
+            "b2Desc": "Hapus tracker bawaan dan kendalikan privasi di level sistem.",
+            "b3Title": "Battery Life Optimal",
+            "b3Desc": "Tuning kernel untuk SOT lebih panjang tanpa mengorbankan performa.",
+            "b4Title": "OS Terbaru, Hardware Lama",
+            "b4Desc": "Custom ROM bawa Android terbaru ke perangkat yang sudah tidak didukung."
+        },
+        "OprekTypes": {
+            "eyebrow": "Mulai dari Mana?",
+            "title": "Pilih titik mulaimu.",
+            "learnMore": "Pelajari →",
+            "comingSoon": "Segera hadir",
+            "badgeRequired": "Wajib Pertama",
+            "badgeAdvanced": "Lanjutan",
+            "badgeOptional": "Opsional",
+            "technicalTitle": "Cara Kerja",
+            "featuresTitle": "Yang Bisa Dilakukan",
+            "prerequisitesTitle": "Prasyarat",
+            "readFullUbl": "Baca Panduan Unlock Bootloader →",
+            "readFullRoot": "Baca Panduan Root →",
+            "readFullRom": "Baca Panduan Custom ROM →",
+            "readFullModules": "Baca Panduan Magisk →",
+            "rootModal": {
+                "badge": "Lanjutan",
+                "desc": "Dapatkan akses penuh ke sistem operasi Android kamu. Hapus bloatware, tweak performa, dan modifikasi tanpa batas.",
+                "requiresDesc": "Root membutuhkan bootloader yang sudah di-unlock terlebih dahulu.",
+                "comingSoon": null
+            },
+            "romModal": {
+                "badge": "Lanjutan",
+                "desc": "Ganti sistem operasi bawaan dengan versi komunitas yang lebih ringan, lebih baru, dan lebih bisa dikustomisasi.",
+                "requiresDesc": "Membutuhkan Unlock Bootloader dan Custom Recovery (TWRP/OFRP) terlebih dahulu.",
+                "comingSoon": null
+            },
+            "kernelModal": {
+                "badge": "Lanjutan",
+                "desc": "Ganti kernel Linux inti untuk mengoptimasi CPU, GPU, manajemen baterai, dan latensi I/O.",
+                "requiresDesc": "Membutuhkan Unlock Bootloader. Root opsional tapi sangat disarankan.",
+                "comingSoon": "Panduan lengkap segera hadir."
+            },
+            "modulesModal": {
+                "badge": "Opsional",
+                "desc": "Pasang fitur dan modifikasi tambahan tanpa menyentuh partisi sistem — aman, bisa dicabut kapan saja.",
+                "requiresDesc": "Membutuhkan Root via Magisk terlebih dahulu.",
+                "comingSoon": null
+            },
+            "ublModal": {
+                "badge": "Wajib Pertama",
+                "desc": "Gerbang utama modifikasi Android. Satu langkah yang membuka semua pintu — Root, Custom ROM, Custom Kernel, dan seterusnya.",
+                "whatTitle": "Apa itu Bootloader?",
+                "whatDesc": "Bootloader adalah program pertama yang berjalan saat perangkat dinyalakan. Pabrik menguncinya agar hanya firmware resmi yang bisa berjalan — mencegah segala bentuk modifikasi.",
+                "whyTitle": "Kenapa Harus di-Unlock?",
+                "whyDesc": "Tanpa unlock bootloader, verifikasi tanda tangan akan menolak semua modifikasi. Ini adalah syarat mutlak sebelum Root, Custom Recovery, maupun Custom ROM.",
+                "stepsTitle": "Alur Proses",
+                "step1": "Aktifkan OEM Unlocking di Developer Options",
+                "step2": "Boot ke Fastboot Mode (Vol− + Power)",
+                "step3": "Jalankan fastboot flashing unlock",
+                "step4": "Konfirmasi di layar perangkat",
+                "warningTitle": "Perhatian",
+                "warningDesc": "Proses ini akan mereset data perangkat (factory reset). Backup semua data penting sebelum memulai.",
+                "readFull": "Baca Panduan Lengkap →"
+            }
+        },
+        "LatestArticles": {
+            "eyebrow": "Dari Blog",
+            "title": "Artikel terbaru.",
+            "viewAll": "Lihat semua artikel →"
+        }
     }
 }

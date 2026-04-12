@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ToolArticleForm } from "@/features/admin/components/tool-article-form";
+import { AdminPageHeader } from "@/features/admin/components/admin-page-header";
 
 async function getCategories() {
     const supabase = await createClient();
@@ -63,7 +64,7 @@ export default async function AdminToolEditPage({ params }: Props) {
 
     return (
         <div>
-            <h1 className="mb-6 text-2xl font-bold text-vd-text-primary">Edit Tool Article</h1>
+            <AdminPageHeader title="Edit Tool Article" eyebrow="Tools" />
             <ToolArticleForm mode="edit" articleId={id} categories={categories} initial={initial} />
         </div>
     );

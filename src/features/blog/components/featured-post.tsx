@@ -1,64 +1,105 @@
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
-import { Badge } from "@/components/ui/badge";
 import type { BlogPost } from "@/features/blog/types";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+
+const categoryLabel: Record<string, string> = {
+    tutorial: "Tutorial",
+    tips: "Tips & Tricks",
+    news: "News",
+};
+
+const categoryColor: Record<string, { bg: string; color: string }> = {
+    tutorial: { bg: "var(--vd-accent-surface)",  color: "var(--vd-accent)" },
+    tips:     { bg: "var(--vd-warning-surface)", color: "var(--vd-warning)" },
+    news:     { bg: "var(--vd-badge-neutral)",   color: "var(--vd-text-muted)" },
+};
 
 type FeaturedPostProps = {
     post: BlogPost;
 };
 
 export function FeaturedPost({ post }: FeaturedPostProps) {
-    const t = useTranslations("BlogIndex");
+    const cat = categoryColor[post.category] ?? { bg: "var(--vd-badge-neutral)", color: "var(--vd-text-muted)" };
 
     return (
         <Link
             href={`/blog/${post.slug}`}
-            className="group grid gap-6 rounded-xl border border-vd-border bg-vd-bg-secondary overflow-hidden transition-all duration-300 hover:border-vd-accent/40 sm:grid-cols-2"
+            className="vd-card grid overflow-hidden sm:grid-cols-2"
         >
-            {/* Cover */}
-            <div className="h-48 bg-gradient-to-br from-vd-accent/10 via-vd-bg-tertiary to-vd-bg-secondary flex items-center justify-center sm:h-full sm:min-h-[260px]">
-                <span className="text-6xl opacity-30">📝</span>
+            {/* Thumbnail */}
+            <div
+                className="flex h-48 items-center justify-center sm:h-full sm:min-h-[260px]"
+                style={{ background: cat.bg }}
+            >
+                <span
+                    className="text-[11px] font-medium uppercase tracking-widest"
+                    style={{ color: cat.color }}
+                >
+                    {categoryLabel[post.category] ?? post.category}
+                </span>
             </div>
 
             {/* Content */}
-            <div className="flex flex-col justify-center p-6">
-                <div className="mb-3 flex items-center gap-3">
-                    <Badge className="bg-vd-accent text-vd-bg-primary text-[10px]">
-                        {t("featured")}
-                    </Badge>
-                    <Badge variant="secondary" className="bg-vd-bg-tertiary text-vd-text-secondary text-[10px]">
-                        {t(post.category)}
-                    </Badge>
-                    <span className="flex items-center gap-1 text-xs text-vd-text-secondary">
-                        <Clock className="h-3 w-3" />
-                        {post.readTime} {t("minRead")}
+            <div className="flex flex-col justify-center p-8">
+                {/* Meta */}
+                <div className="mb-4 flex flex-wrap items-center gap-3">
+                    <span
+                        className="rounded-full px-2.5 py-0.5 text-[11px] font-medium"
+                        style={{ background: "var(--vd-accent)", color: "var(--vd-bg)" }}
+                    >
+                        Featured
                     </span>
+                    <span
+                        className="rounded-full px-2.5 py-0.5 text-[11px]"
+                        style={{ background: cat.bg, color: cat.color }}
+                    >
+                        {categoryLabel[post.category] ?? post.category}
+                    </span>
+                    {post.readTime > 0 && (
+                        <span className="text-xs" style={{ color: "var(--vd-text-muted)" }}>
+                            {post.readTime} min baca
+                        </span>
+                    )}
                 </div>
 
-                <h2 className="mb-3 text-xl font-bold text-vd-text-primary group-hover:text-vd-accent transition-colors sm:text-2xl">
+                <h2
+                    className="mb-3"
+                    style={{
+                        fontFamily: "var(--font-dm-display), serif",
+                        fontSize: "clamp(22px, 3vw, 32px)",
+                        fontWeight: 400,
+                        color: "var(--vd-text)",
+                        letterSpacing: "-0.02em",
+                        lineHeight: "1.25",
+                    }}
+                >
                     {post.title}
                 </h2>
 
-                <p className="mb-4 text-sm leading-relaxed text-vd-text-secondary">
+                <p
+                    className="mb-5 text-sm leading-relaxed"
+                    style={{ color: "var(--vd-text-secondary)", lineHeight: "1.7" }}
+                >
                     {post.excerpt}
                 </p>
 
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1 text-xs text-vd-text-secondary">
-                        <Calendar className="h-3 w-3" />
+                    <div className="text-xs" style={{ color: "var(--vd-text-muted)" }}>
                         {post.publishedAt
                             ? new Date(post.publishedAt).toLocaleDateString("id-ID", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            })
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                              })
                             : "Draft"}
-                        <span className="ml-1">• {post.author}</span>
+                        {post.author && (
+                            <span className="ml-2">· {post.author}</span>
+                        )}
                     </div>
-                    <span className="flex items-center gap-1 text-sm font-medium text-vd-accent group-hover:translate-x-1 transition-transform">
-                        {t("readMore")}
-                        <ArrowRight className="h-3.5 w-3.5" />
+                    <span
+                        className="text-sm font-medium"
+                        style={{ color: "var(--vd-accent)" }}
+                    >
+                        Baca →
                     </span>
                 </div>
             </div>

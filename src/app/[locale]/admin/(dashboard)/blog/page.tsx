@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
 import { BlogListActions } from "./list-actions";
+import { AdminPageHeader } from "@/features/admin/components/admin-page-header";
 
 async function getAdminBlogPosts() {
     const supabase = await createClient();
@@ -22,15 +23,18 @@ export default async function AdminBlogListPage() {
 
     return (
         <div>
-            <div className="mb-6 flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-vd-text-primary">Blog Posts</h1>
-                <Link href="/admin/blog/new">
-                    <Button className="bg-vd-accent text-vd-bg-primary hover:bg-vd-accent/90">
-                        <Plus className="mr-2 h-4 w-4" />
-                        New Post
-                    </Button>
-                </Link>
-            </div>
+            <AdminPageHeader
+                title="Blog Posts"
+                eyebrow="Content"
+                actions={
+                    <Link href="/admin/blog/new">
+                        <Button className="bg-vd-accent text-vd-bg-primary hover:bg-vd-accent/90">
+                            <Plus className="mr-2 h-4 w-4" />
+                            New Post
+                        </Button>
+                    </Link>
+                }
+            />
 
             <div className="rounded-lg border border-vd-border">
                 <Table>
@@ -59,7 +63,7 @@ export default async function AdminBlogListPage() {
                                     <TableCell className="text-sm text-vd-text-secondary capitalize">{post.category as string}</TableCell>
                                     <TableCell className="text-sm text-vd-text-secondary">{post.author as string}</TableCell>
                                     <TableCell>
-                                        <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${post.published ? "bg-green-500/10 text-green-400" : "bg-yellow-500/10 text-yellow-400"}`}>
+                                        <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${post.published ? "bg-vd-accent-surface text-vd-accent" : "bg-vd-warning-surface text-vd-warning"}`}>
                                             {post.published ? "Published" : "Draft"}
                                         </span>
                                     </TableCell>

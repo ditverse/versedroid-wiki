@@ -3,6 +3,7 @@ import { createStaticClient } from "@/lib/supabase/static";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, Wrench, FileText, Eye, EyeOff } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { AdminPageHeader } from "@/features/admin/components/admin-page-header";
 
 const getStats = unstable_cache(
     async () => {
@@ -66,9 +67,7 @@ export default async function AdminDashboardPage() {
 
     return (
         <div>
-            <h1 className="mb-6 text-2xl font-bold text-vd-text-primary">
-                Dashboard
-            </h1>
+            <AdminPageHeader title="Dashboard" eyebrow="Overview" />
 
             <div className="grid gap-4 sm:grid-cols-3">
                 {cards.map((card) => (
@@ -86,11 +85,11 @@ export default async function AdminDashboardPage() {
                                 </div>
                                 <div className="mt-2 flex items-center gap-4 text-xs text-vd-text-secondary">
                                     <span className="flex items-center gap-1">
-                                        <Eye className="h-3 w-3 text-green-400" />
+                                        <Eye className="h-3 w-3 text-vd-accent" />
                                         {card.published} published
                                     </span>
                                     <span className="flex items-center gap-1">
-                                        <EyeOff className="h-3 w-3 text-yellow-400" />
+                                        <EyeOff className="h-3 w-3 text-vd-warning" />
                                         {card.total - card.published} draft
                                     </span>
                                 </div>

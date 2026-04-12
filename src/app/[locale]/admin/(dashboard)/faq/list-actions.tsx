@@ -43,7 +43,7 @@ export function FaqListActions({ id, published }: FaqListActionsProps) {
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-vd-text-secondary hover:text-red-400"
+                        className="h-8 w-8 text-vd-text-secondary hover:text-vd-danger"
                     >
                         <Trash2 className="h-4 w-4" />
                     </Button>

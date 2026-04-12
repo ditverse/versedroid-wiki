@@ -4,6 +4,7 @@
         "description": "Learn the art of Android modding — from unlocking bootloader to custom ROM, with complete guides and the right tools."
     },
     "Navbar": {
+        "home": "Home",
         "faq": "FAQ",
         "tools": "Tools",
         "blog": "Blog",
@@ -170,5 +171,89 @@
         "onThisPage": "On This Page",
         "home": "Home",
         "backToTop": "Back to top"
+    },
+    "Landing": {
+        "Hero": {
+            "eyebrow": "Android Modding Wiki",
+            "titleLine1": "Unlock the",
+            "titleAccent": "Full",
+            "titleEnd": "Potential of Your Android.",
+            "subtitle": "Structured modding guides — from Unlock Bootloader to Custom ROM. Written for humans, not robots.",
+            "ctaPrimary": "Start Modding",
+            "ctaSecondary": "Download Tools"
+        },
+        "WhyModding": {
+            "eyebrow": "Why Mod?",
+            "title": "Take back control of your device.",
+            "b1Title": "CPU & GPU Without Throttle",
+            "b1Desc": "Remove factory limiters, unlock your device's full performance.",
+            "b2Title": "Full Data Control",
+            "b2Desc": "Remove built-in trackers and control privacy at the system level.",
+            "b3Title": "Optimal Battery Life",
+            "b3Desc": "Kernel tuning for longer screen-on time without sacrificing performance.",
+            "b4Title": "Latest OS, Old Hardware",
+            "b4Desc": "Custom ROM brings the latest Android to devices no longer officially supported."
+        },
+        "OprekTypes": {
+            "eyebrow": "Where to Start?",
+            "title": "Choose your starting point.",
+            "learnMore": "Learn More →",
+            "comingSoon": "Coming soon",
+            "badgeRequired": "Required First",
+            "badgeAdvanced": "Advanced",
+            "badgeOptional": "Optional",
+            "technicalTitle": "How It Works",
+            "featuresTitle": "What You Can Do",
+            "prerequisitesTitle": "Prerequisites",
+            "readFullUbl": "Read Unlock Bootloader Guide →",
+            "readFullRoot": "Read Root Guide →",
+            "readFullRom": "Read Custom ROM Guide →",
+            "readFullModules": "Read Magisk Guide →",
+            "rootModal": {
+                "badge": "Advanced",
+                "desc": "Get full access to your Android operating system. Remove bloatware, tweak performance, and modify without limits.",
+                "requiresDesc": "Root requires an unlocked bootloader first.",
+                "comingSoon": null
+            },
+            "romModal": {
+                "badge": "Advanced",
+                "desc": "Replace the stock operating system with a community-built version that's lighter, more up-to-date, and fully customizable.",
+                "requiresDesc": "Requires Unlock Bootloader and Custom Recovery (TWRP/OFRP) first.",
+                "comingSoon": null
+            },
+            "kernelModal": {
+                "badge": "Advanced",
+                "desc": "Replace the core Linux kernel to optimize CPU, GPU, battery management, and I/O latency.",
+                "requiresDesc": "Requires Unlock Bootloader. Root is optional but highly recommended.",
+                "comingSoon": "Full guide coming soon."
+            },
+            "modulesModal": {
+                "badge": "Optional",
+                "desc": "Install extra features and modifications without touching system partitions — safe, reversible at any time.",
+                "requiresDesc": "Requires Root via Magisk first.",
+                "comingSoon": null
+            },
+            "ublModal": {
+                "badge": "Required First",
+                "desc": "The main gateway to Android modification. One step that opens every door — Root, Custom ROM, Custom Kernel, and beyond.",
+                "whatTitle": "What is a Bootloader?",
+                "whatDesc": "The bootloader is the first program that runs when your device powers on. Manufacturers lock it so only official firmware can run — preventing all forms of modification.",
+                "whyTitle": "Why Unlock It?",
+                "whyDesc": "Without unlocking the bootloader, signature verification rejects all modifications. This is a mandatory prerequisite for Root, Custom Recovery, or Custom ROM.",
+                "stepsTitle": "Process Overview",
+                "step1": "Enable OEM Unlocking in Developer Options",
+                "step2": "Boot to Fastboot Mode (Vol− + Power)",
+                "step3": "Run fastboot flashing unlock",
+                "step4": "Confirm on your device screen",
+                "warningTitle": "Warning",
+                "warningDesc": "This process will reset your device data (factory reset). Back up all important data before starting.",
+                "readFull": "Read Full Guide →"
+            }
+        },
+        "LatestArticles": {
+            "eyebrow": "From the Blog",
+            "title": "Latest articles.",
+            "viewAll": "View all articles →"
+        }
     }
 }

@@ -63,7 +63,7 @@ function BlockEditor({
                     variant="ghost"
                     size="icon"
                     onClick={onRemove}
-                    className="h-7 w-7 text-vd-text-secondary hover:text-red-400"
+                    className="h-7 w-7 text-vd-text-secondary hover:text-vd-danger"
                 >
                     <Trash2 className="h-3.5 w-3.5" />
                 </Button>
@@ -116,7 +116,7 @@ function BlockEditor({
                                     const newItems = block.items.filter((_, j) => j !== i);
                                     onChange({ ...block, items: newItems.length > 0 ? newItems : [""] });
                                 }}
-                                className="h-9 w-9 shrink-0 text-vd-text-secondary hover:text-red-400"
+                                className="h-9 w-9 shrink-0 text-vd-text-secondary hover:text-vd-danger"
                             >
                                 <Trash2 className="h-3.5 w-3.5" />
                             </Button>

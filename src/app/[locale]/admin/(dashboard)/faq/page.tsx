@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Plus } from "lucide-react";
 import { FaqListActions } from "./list-actions";
+import { AdminPageHeader } from "@/features/admin/components/admin-page-header";
 
 async function getAdminFaqArticles() {
     const supabase = await createClient();
@@ -30,17 +31,18 @@ export default async function AdminFaqListPage() {
 
     return (
         <div>
-            <div className="mb-6 flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-vd-text-primary">
-                    FAQ Articles
-                </h1>
-                <Link href="/admin/faq/new">
-                    <Button className="bg-vd-accent text-vd-bg-primary hover:bg-vd-accent/90">
-                        <Plus className="mr-2 h-4 w-4" />
-                        New Article
-                    </Button>
-                </Link>
-            </div>
+            <AdminPageHeader
+                title="FAQ Articles"
+                eyebrow="Content"
+                actions={
+                    <Link href="/admin/faq/new">
+                        <Button className="bg-vd-accent text-vd-bg-primary hover:bg-vd-accent/90">
+                            <Plus className="mr-2 h-4 w-4" />
+                            New Article
+                        </Button>
+                    </Link>
+                }
+            />
 
             <div className="rounded-lg border border-vd-border">
                 <Table>
@@ -77,8 +79,8 @@ export default async function AdminFaqListPage() {
                                     <TableCell>
                                         <span
                                             className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${article.published
-                                                ? "bg-green-500/10 text-green-400"
-                                                : "bg-yellow-500/10 text-yellow-400"
+                                                ? "bg-vd-accent-surface text-vd-accent"
+                                                : "bg-vd-warning-surface text-vd-warning"
                                                 }`}
                                         >
                                             {article.published ? "Published" : "Draft"}

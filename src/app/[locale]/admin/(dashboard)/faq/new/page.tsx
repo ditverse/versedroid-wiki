@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { FaqArticleForm } from "@/features/admin/components/faq-article-form";
+import { AdminPageHeader } from "@/features/admin/components/admin-page-header";
 
 async function getCategories() {
     const supabase = await createClient();
@@ -15,9 +16,7 @@ export default async function AdminFaqNewPage() {
 
     return (
         <div>
-            <h1 className="mb-6 text-2xl font-bold text-vd-text-primary">
-                New FAQ Article
-            </h1>
+            <AdminPageHeader title="New FAQ Article" eyebrow="FAQ" />
             <FaqArticleForm mode="create" categories={categories} />
         </div>
     );

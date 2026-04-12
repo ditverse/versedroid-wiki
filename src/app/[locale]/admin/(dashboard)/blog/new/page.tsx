@@ -1,9 +1,10 @@
 import { BlogPostForm } from "@/features/admin/components/blog-post-form";
+import { AdminPageHeader } from "@/features/admin/components/admin-page-header";
 
 export default function AdminBlogNewPage() {
     return (
         <div>
-            <h1 className="mb-6 text-2xl font-bold text-vd-text-primary">New Blog Post</h1>
+            <AdminPageHeader title="New Blog Post" eyebrow="Blog" />
             <BlogPostForm mode="create" />
         </div>
     );

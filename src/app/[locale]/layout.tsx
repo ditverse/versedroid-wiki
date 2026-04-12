@@ -3,7 +3,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { plusJakarta, jetbrainsMono } from "@/lib/fonts";
+import { dmSerifDisplay, dmSans, dmMono } from "@/lib/fonts";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/shared/theme-provider";
@@ -34,20 +34,21 @@ export default async function LocaleLayout({ children, params }: Props) {
 
     return (
         // suppressHydrationWarning prevents SSR/client mismatch when
-        // ThemeProvider adds "dark" or "light" class on the client
+        // ThemeProvider sets "dark" or "light" class on the client
         <html lang={locale} suppressHydrationWarning>
             <body
-                className={`${plusJakarta.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground`}
+                className={`${dmSerifDisplay.variable} ${dmSans.variable} ${dmMono.variable} antialiased bg-background text-foreground`}
+                style={{ fontFamily: "var(--font-dm-sans), system-ui, sans-serif" }}
             >
-                <NextIntlClientProvider>
-                    <ThemeProvider>
+                <ThemeProvider>
+                    <NextIntlClientProvider>
                         <div className="flex min-h-screen flex-col">
                             <Navbar />
                             <main className="flex-1">{children}</main>
                             <Footer />
                         </div>
-                    </ThemeProvider>
-                </NextIntlClientProvider>
+                    </NextIntlClientProvider>
+                </ThemeProvider>
             </body>
         </html>
     );

@@ -1,111 +1,105 @@
-"use client";
+import { getTranslations } from "next-intl/server";
 
-import { useTranslations } from "next-intl";
-import { ScrollReveal } from "@/components/shared/scroll-reveal";
-import { Zap, Shield, Battery, Layers, Smartphone } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+export async function WhyModdingSection() {
+    const t = await getTranslations("Landing.WhyModding");
 
-export function WhyModdingSection() {
-    const t = useTranslations("WhyModding");
+    const benefits = [
+        {
+            icon: (
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 1L10 6H15L11 9.5L12.5 14.5L8 11.5L3.5 14.5L5 9.5L1 6H6L8 1Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                </svg>
+            ),
+            title: t("b1Title"),
+            desc:  t("b1Desc"),
+        },
+        {
+            icon: (
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                    <path d="M5 8H11M8 5V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+            ),
+            title: t("b2Title"),
+            desc:  t("b2Desc"),
+        },
+        {
+            icon: (
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="1" width="6" height="11" rx="1" stroke="currentColor" strokeWidth="1.5"/>
+                    <path d="M6 12H10V14H6V12Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+                    <path d="M6 4H10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+            ),
+            title: t("b3Title"),
+            desc:  t("b3Desc"),
+        },
+        {
+            icon: (
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+            ),
+            title: t("b4Title"),
+            desc:  t("b4Desc"),
+        },
+    ];
 
     return (
-        <section className="px-4 py-20 lg:py-32 overflow-hidden bg-gradient-to-b from-transparent to-vd-bg-secondary/20">
-            <div className="mx-auto max-w-6xl">
-                <div className="grid gap-16 lg:grid-cols-2 lg:gap-24 items-center">
-                    {/* Left: Philosophy Text */}
-                    <ScrollReveal>
-                        <div className="space-y-8 text-center lg:text-left relative z-10">
-                            <Badge variant="outline" className="border-vd-accent/20 text-vd-accent bg-vd-accent/5 px-4 py-1.5 text-sm uppercase tracking-wider">
-                                {t("title")}
-                            </Badge>
-                            <h2 className="text-4xl font-bold text-vd-text-primary sm:text-5xl md:text-6xl leading-[1.1] tracking-tight">
-                                {t("philosophyTitle")}
-                            </h2>
-                            <p className="text-lg leading-relaxed text-vd-text-secondary max-w-xl mx-auto lg:mx-0">
-                                {t("philosophyDesc")}
+        <section className="px-6 py-[72px]" style={{ background: "var(--vd-bg)" }}>
+            <div
+                className="mx-auto max-w-[1100px]"
+                style={{ borderTop: "1px solid var(--vd-border)" }}
+            >
+                {/* Section header */}
+                <div className="py-12">
+                    <p
+                        className="mb-4 text-[11px] font-medium uppercase tracking-[0.1em]"
+                        style={{ color: "var(--vd-text-muted)" }}
+                    >
+                        {t("eyebrow")}
+                    </p>
+                    <h2
+                        style={{
+                            fontFamily: "var(--font-dm-display), serif",
+                            fontSize: "clamp(28px, 4vw, 36px)",
+                            letterSpacing: "-0.025em",
+                            color: "var(--vd-text)",
+                            fontWeight: 400,
+                            lineHeight: "1.2",
+                        }}
+                    >
+                        {t("title")}
+                    </h2>
+                </div>
+
+                {/* 4-column border-gapped grid */}
+                <div
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+                    style={{ background: "var(--vd-border)", gap: "1px" }}
+                >
+                    {benefits.map((b) => (
+                        <div
+                            key={b.title}
+                            className="p-6"
+                            style={{ background: "var(--vd-bg)" }}
+                        >
+                            <div
+                                className="mb-4 flex h-8 w-8 items-center justify-center rounded-md"
+                                style={{ background: "var(--vd-accent-surface)", color: "var(--vd-accent)" }}
+                            >
+                                {b.icon}
+                            </div>
+                            <h3 className="mb-2 text-sm font-medium" style={{ color: "var(--vd-text)" }}>
+                                {b.title}
+                            </h3>
+                            <p className="text-sm leading-relaxed" style={{ color: "var(--vd-text-muted)", lineHeight: "1.7" }}>
+                                {b.desc}
                             </p>
                         </div>
-                    </ScrollReveal>
-
-                    {/* Right: Elegant Cluster Infographic */}
-                    <ScrollReveal delay={200} className="relative flex justify-center items-center h-[500px]">
-
-                        {/* Background Ambient Glow */}
-                        <div className="absolute inset-0 bg-vd-accent/5 blur-[100px] rounded-full scale-150 animate-pulse-slow" />
-
-                        <div className="relative w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] md:w-[500px] md:h-[500px] flex items-center justify-center">
-
-                            {/* Connecting Lines (SVG) */}
-                            <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-md">
-                                <defs>
-                                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="rgba(16, 185, 129, 0.1)" />
-                                        <stop offset="50%" stopColor="rgba(16, 185, 129, 0.5)" />
-                                        <stop offset="100%" stopColor="rgba(16, 185, 129, 0.1)" />
-                                    </linearGradient>
-                                </defs>
-                                {/* Center to Top Left */}
-                                <line x1="50%" y1="50%" x2="15%" y2="15%" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4 4" className="animate-dash-flow" />
-                                {/* Center to Top Right */}
-                                <line x1="50%" y1="50%" x2="85%" y2="15%" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4 4" className="animate-dash-flow" />
-                                {/* Center to Bottom Left */}
-                                <line x1="50%" y1="50%" x2="15%" y2="85%" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4 4" className="animate-dash-flow-reverse" />
-                                {/* Center to Bottom Right */}
-                                <line x1="50%" y1="50%" x2="85%" y2="85%" stroke="url(#lineGradient)" strokeWidth="2" strokeDasharray="4 4" className="animate-dash-flow-reverse" />
-                            </svg>
-
-                            {/* Center Node */}
-                            <div className="relative z-20 flex h-24 w-24 sm:h-32 sm:w-32 items-center justify-center rounded-full bg-vd-bg-secondary border-4 border-vd-bg-primary shadow-2xl ring-4 ring-vd-accent/20 transition-transform duration-500 hover:scale-105">
-                                <div className="absolute inset-0 rounded-full bg-vd-accent/5 blur-md" />
-                                <Smartphone className="h-10 w-10 sm:h-12 sm:w-12 text-vd-accent" />
-                            </div>
-
-                            {/* Satellite Nodes */}
-                            <ClusterNode
-                                position="top-0 left-0"
-                                icon={Zap}
-                                title={t("infographic.node1Title")}
-                                desc={t("infographic.node1Desc")}
-                            />
-                            <ClusterNode
-                                position="top-0 right-0"
-                                icon={Shield}
-                                title={t("infographic.node2Title")}
-                                desc={t("infographic.node2Desc")}
-                            />
-                            <ClusterNode
-                                position="bottom-0 left-0"
-                                icon={Battery}
-                                title={t("infographic.node3Title")}
-                                desc={t("infographic.node3Desc")}
-                            />
-                            <ClusterNode
-                                position="bottom-0 right-0"
-                                icon={Layers}
-                                title={t("infographic.node4Title")}
-                                desc={t("infographic.node4Desc")}
-                            />
-                        </div>
-                    </ScrollReveal>
+                    ))}
                 </div>
             </div>
         </section>
-    );
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ClusterNode({ position, icon: Icon, title, desc }: { position: string, icon: any, title: string, desc: string }) {
-    return (
-        <div className={`absolute ${position} flex flex-col items-center text-center max-w-[120px] sm:max-w-[140px] group cursor-default`}>
-            <div className="mb-2 sm:mb-4 flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:bg-vd-accent/10 group-hover:border-vd-accent/30 dark:bg-slate-800/50 dark:border-slate-700">
-                <Icon className="h-5 w-5 sm:h-7 sm:w-7 text-vd-text-primary transition-colors group-hover:text-vd-accent" />
-            </div>
-            <h3 className="mb-1 text-xs sm:text-sm font-bold text-vd-text-primary transition-colors group-hover:text-vd-accent leading-tight">
-                {title}
-            </h3>
-            <p className="text-[10px] sm:text-xs leading-tight sm:leading-relaxed text-vd-text-secondary hidden sm:block">
-                {desc}
-            </p>
-        </div>
     );
 }

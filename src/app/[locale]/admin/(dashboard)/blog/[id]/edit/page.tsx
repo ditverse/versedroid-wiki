@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { BlogPostForm } from "@/features/admin/components/blog-post-form";
+import { AdminPageHeader } from "@/features/admin/components/admin-page-header";
 
 async function getPostForEdit(id: string) {
     const supabase = await createClient();
@@ -63,7 +64,7 @@ export default async function AdminBlogEditPage({ params }: Props) {
 
     return (
         <div>
-            <h1 className="mb-6 text-2xl font-bold text-vd-text-primary">Edit Blog Post</h1>
+            <AdminPageHeader title="Edit Blog Post" eyebrow="Blog" />
             <BlogPostForm mode="edit" postId={id} initial={initial} />
         </div>
     );

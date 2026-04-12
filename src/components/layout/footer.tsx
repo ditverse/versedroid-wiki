@@ -1,54 +1,54 @@
-import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Separator } from "@/components/ui/separator";
 
 const faqLinks = [
     { href: "/faq/unlock-bootloader", label: "Unlock Bootloader" },
-    { href: "/faq/root", label: "Root" },
+    { href: "/faq/root", label: "Root Access" },
     { href: "/faq/custom-rom", label: "Custom ROM" },
+    { href: "/faq/magisk", label: "Magisk" },
+];
+
+const blogLinks = [
+    { href: "/blog", label: "Semua Artikel" },
+    { href: "/blog", label: "Tutorial" },
+    { href: "/blog", label: "Tips & Tricks" },
 ];
 
 const socialLinks = [
-    {
-        href: "https://instagram.com/rise.dit",
-        label: "Instagram",
-    },
-    {
-        href: "https://youtube.com/@versedroid",
-        label: "YouTube",
-    },
-    {
-        href: "https://tiktok.com/@versedroid",
-        label: "TikTok",
-    },
+    { href: "https://instagram.com/rise.dit", label: "Instagram" },
+    { href: "https://youtube.com/@versedroid", label: "YouTube" },
+    { href: "https://tiktok.com/@versedroid", label: "TikTok" },
 ];
 
 export function Footer() {
-    const t = useTranslations("Footer");
-
     return (
-        <footer className="border-t border-vd-border bg-vd-bg-primary">
-            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-                {/* Logo */}
-                <div className="mb-8">
-                    <span className="text-xl font-bold tracking-tight text-vd-text-primary">
-                        versedroid<span className="text-vd-accent">.</span>
-                    </span>
-                </div>
+        <footer style={{ borderTop: "1px solid var(--vd-border)", background: "var(--vd-bg)" }}>
+            <div className="mx-auto max-w-[1100px] px-6 py-16">
+                <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+                    {/* Col 1: Brand tagline */}
+                    <div className="lg:col-span-1">
+                        <div className="mb-4 text-base font-semibold" style={{ color: "var(--vd-text)" }}>
+                            versedroid<span style={{ color: "var(--vd-accent)" }}>.</span>
+                        </div>
+                        <p className="text-sm leading-relaxed" style={{ color: "var(--vd-text-muted)" }}>
+                            Wiki oprek Android berbahasa Indonesia. Panduan terstruktur untuk semua level.
+                        </p>
+                    </div>
 
-                {/* Columns */}
-                <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-                    {/* FAQ Column */}
+                    {/* Col 2: FAQ links */}
                     <div>
-                        <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-vd-text-primary">
-                            {t("faqTitle")}
+                        <h3
+                            className="mb-5 text-[11px] font-medium uppercase tracking-widest"
+                            style={{ color: "var(--vd-text-muted)" }}
+                        >
+                            FAQ
                         </h3>
                         <ul className="space-y-3" role="list">
                             {faqLinks.map((link) => (
-                                <li key={link.href}>
+                                <li key={link.href + link.label}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm text-vd-text-secondary transition-colors hover:text-vd-accent"
+                                        className="text-sm transition-colors"
+                                        style={{ color: "var(--vd-text-secondary)" }}
                                     >
                                         {link.label}
                                     </Link>
@@ -57,35 +57,36 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Blog Column */}
+                    {/* Col 3: Blog links */}
                     <div>
-                        <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-vd-text-primary">
-                            {t("blogTitle")}
+                        <h3
+                            className="mb-5 text-[11px] font-medium uppercase tracking-widest"
+                            style={{ color: "var(--vd-text-muted)" }}
+                        >
+                            Blog
                         </h3>
                         <ul className="space-y-3" role="list">
-                            <li>
-                                <Link
-                                    href="/blog"
-                                    className="text-sm text-vd-text-secondary transition-colors hover:text-vd-accent"
-                                >
-                                    {t("latestPosts")}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/blog"
-                                    className="text-sm text-vd-text-secondary transition-colors hover:text-vd-accent"
-                                >
-                                    {t("popularPosts")}
-                                </Link>
-                            </li>
+                            {blogLinks.map((link) => (
+                                <li key={link.href + link.label}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-sm transition-colors"
+                                        style={{ color: "var(--vd-text-secondary)" }}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* Social Column */}
+                    {/* Col 4: Social links */}
                     <div>
-                        <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-vd-text-primary">
-                            {t("socialTitle")}
+                        <h3
+                            className="mb-5 text-[11px] font-medium uppercase tracking-widest"
+                            style={{ color: "var(--vd-text-muted)" }}
+                        >
+                            Social
                         </h3>
                         <ul className="space-y-3" role="list">
                             {socialLinks.map((link) => (
@@ -94,7 +95,8 @@ export function Footer() {
                                         href={link.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-sm text-vd-text-secondary transition-colors hover:text-vd-accent"
+                                        className="text-sm transition-colors"
+                                        style={{ color: "var(--vd-text-secondary)" }}
                                     >
                                         {link.label}
                                     </a>
@@ -104,12 +106,18 @@ export function Footer() {
                     </div>
                 </div>
 
-                <Separator className="my-8 bg-vd-border" />
-
-                {/* Copyright */}
-                <p className="text-center text-xs text-vd-text-secondary">
-                    {t("copyright")}
-                </p>
+                {/* Bottom bar */}
+                <div
+                    className="mt-12 flex flex-col items-center justify-between gap-3 pt-6 sm:flex-row"
+                    style={{ borderTop: "1px solid var(--vd-border)" }}
+                >
+                    <p className="text-xs" style={{ color: "var(--vd-text-muted)" }}>
+                        &copy; 2026 versedroid. All rights reserved.
+                    </p>
+                    <p className="text-xs" style={{ color: "var(--vd-text-muted)" }}>
+                        Made in Bandung.
+                    </p>
+                </div>
             </div>
         </footer>
     );

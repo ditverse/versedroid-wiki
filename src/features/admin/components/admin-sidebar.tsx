@@ -5,11 +5,19 @@ import { LayoutDashboard, BookOpen, Wrench, FileText, LogOut } from "lucide-reac
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
-const navItems = [
-    { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/admin/faq", label: "FAQ", icon: BookOpen },
-    { href: "/admin/tools", label: "Tools", icon: Wrench },
-    { href: "/admin/blog", label: "Blog", icon: FileText },
+const navGroups = [
+    {
+        label: null,
+        items: [{ href: "/admin", label: "Dashboard", icon: LayoutDashboard }],
+    },
+    {
+        label: "Content",
+        items: [
+            { href: "/admin/faq", label: "FAQ", icon: BookOpen },
+            { href: "/admin/tools", label: "Tools", icon: Wrench },
+            { href: "/admin/blog", label: "Blog", icon: FileText },
+        ],
+    },
 ];
 
 export function SidebarContent({ userEmail, onNavigate }: { userEmail: string; onNavigate?: () => void }) {
@@ -35,28 +43,38 @@ export function SidebarContent({ userEmail, onNavigate }: { userEmail: string; o
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 space-y-1 overflow-y-auto p-3">
-                {navItems.map((item) => {
-                    const isActive =
-                        item.href === "/admin"
-                            ? pathname === "/admin"
-                            : pathname.startsWith(item.href);
-
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            onClick={onNavigate}
-                            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isActive
-                                    ? "bg-vd-accent/10 text-vd-accent"
-                                    : "text-vd-text-secondary hover:bg-vd-bg-tertiary hover:text-vd-text-primary"
-                                }`}
-                        >
-                            <item.icon className="h-4 w-4" />
-                            {item.label}
-                        </Link>
-                    );
-                })}
+            <nav className="flex-1 overflow-y-auto p-3 space-y-4">
+                {navGroups.map((group, gi) => (
+                    <div key={gi}>
+                        {group.label && (
+                            <p className="mb-1 px-3 text-[10px] font-medium uppercase tracking-[0.1em] text-vd-text-secondary/60">
+                                {group.label}
+                            </p>
+                        )}
+                        <div className="space-y-0.5">
+                            {group.items.map((item) => {
+                                const isActive =
+                                    item.href === "/admin"
+                                        ? pathname === "/admin"
+                                        : pathname.startsWith(item.href);
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        onClick={onNavigate}
+                                        className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isActive
+                                                ? "bg-vd-accent/10 text-vd-accent"
+                                                : "text-vd-text-secondary hover:bg-vd-bg-tertiary hover:text-vd-text-primary"
+                                            }`}
+                                    >
+                                        <item.icon className="h-4 w-4" />
+                                        {item.label}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ))}
             </nav>
 
             {/* User + Logout */}
@@ -66,7 +84,7 @@ export function SidebarContent({ userEmail, onNavigate }: { userEmail: string; o
                 </div>
                 <button
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-vd-text-secondary transition-colors hover:bg-red-500/10 hover:text-red-400"
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-vd-text-secondary transition-colors hover:bg-vd-danger-surface hover:text-vd-danger"
                 >
                     <LogOut className="h-4 w-4" />
                     Logout

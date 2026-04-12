@@ -1,5 +1,4 @@
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
 import type { FaqArticle } from "@/features/faq/types";
 
 type FaqCardProps = {
@@ -7,24 +6,55 @@ type FaqCardProps = {
 };
 
 export function FaqCard({ article }: FaqCardProps) {
-    const t = useTranslations("FaqDetail");
-
     return (
         <Link
             href={`/faq/${article.slug}`}
-            className="group flex flex-col rounded-xl border border-vd-border bg-vd-bg-secondary p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-vd-accent/40 hover:accent-glow"
+            className="vd-card group flex flex-col p-6"
         >
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-vd-accent/10 text-lg transition-colors group-hover:bg-vd-accent/20">
-                {article.icon}
+            {/* Icon placeholder */}
+            <div
+                className="mb-4 flex h-8 w-8 items-center justify-center rounded-md"
+                style={{ background: "var(--vd-border)" }}
+            >
+                <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M3 2H9L11 4V12H3V2Z"
+                        stroke="var(--vd-text-secondary)"
+                        strokeWidth="1.2"
+                        strokeLinejoin="round"
+                    />
+                    <path
+                        d="M5 6H9M5 8H8"
+                        stroke="var(--vd-text-secondary)"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                    />
+                </svg>
             </div>
-            <h3 className="mb-2 text-base font-semibold text-vd-text-primary">
+
+            <h3
+                className="mb-2 text-sm font-medium"
+                style={{ color: "var(--vd-text)" }}
+            >
                 {article.title}
             </h3>
-            <p className="mb-4 flex-1 text-sm leading-relaxed text-vd-text-secondary">
+            <p
+                className="mb-4 flex-1 text-sm leading-relaxed"
+                style={{ color: "var(--vd-text-secondary)", lineHeight: "1.7" }}
+            >
                 {article.description}
             </p>
-            <span className="text-sm font-medium text-vd-accent transition-transform group-hover:translate-x-1">
-                {t("readMore")}
+            <span
+                className="text-sm"
+                style={{ color: "var(--vd-accent)" }}
+            >
+                Baca →
             </span>
         </Link>
     );

@@ -90,147 +90,160 @@ export function ToolArticleForm({ mode, articleId, categories, initial }: ToolFo
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit}>
             {error && (
-                <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-400">{error}</div>
+                <div className="mb-6 rounded-lg border border-vd-danger/30 bg-vd-danger-surface p-3 text-sm text-vd-danger">{error}</div>
             )}
 
-            <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                    <Label>Slug</Label>
-                    <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="platform-tools" className="border-vd-border bg-vd-bg-primary" required />
-                </div>
-                <div className="space-y-2">
-                    <Label>Icon (emoji)</Label>
-                    <Input value={icon} onChange={(e) => setIcon(e.target.value)} className="border-vd-border bg-vd-bg-primary" />
-                </div>
-                <div className="space-y-2">
-                    <Label>Category</Label>
-                    <Select value={categoryId} onValueChange={setCategoryId}>
-                        <SelectTrigger className="border-vd-border bg-vd-bg-primary"><SelectValue /></SelectTrigger>
-                        <SelectContent>
-                            {categories.map((cat) => (<SelectItem key={cat.id} value={cat.id}>{cat.key}</SelectItem>))}
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="space-y-2">
-                    <Label>Sort Order</Label>
-                    <Input type="number" value={sortOrder} onChange={(e) => setSortOrder(Number(e.target.value))} className="border-vd-border bg-vd-bg-primary" />
-                </div>
-                <div className="space-y-2">
-                    <Label>Download URL</Label>
-                    <Input value={downloadUrl} onChange={(e) => setDownloadUrl(e.target.value)} placeholder="https://..." className="border-vd-border bg-vd-bg-primary" />
-                </div>
-                <div className="space-y-2">
-                    <Label>Version</Label>
-                    <Input value={downloadVersion} onChange={(e) => setDownloadVersion(e.target.value)} placeholder="1.0.0" className="border-vd-border bg-vd-bg-primary" />
-                </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-                <Switch checked={published} onCheckedChange={setPublished} />
-                <Label>Published</Label>
-            </div>
-
-            <LocaleTabs>
-                {(locale) => (
-                    <div className="space-y-4">
-                        <div className="space-y-2">
-                            <Label>Title ({locale.toUpperCase()})</Label>
-                            <Input value={translations[locale].title} onChange={(e) => updateTranslation(locale, "title", e.target.value)} className="border-vd-border bg-vd-bg-primary" required={locale === "id"} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Description ({locale.toUpperCase()})</Label>
-                            <Textarea value={translations[locale].description} onChange={(e) => updateTranslation(locale, "description", e.target.value)} className="border-vd-border bg-vd-bg-primary" required={locale === "id"} />
-                        </div>
-                        <ContentEditor value={translations[locale].content as never[]} onChange={(blocks) => updateTranslation(locale, "content", blocks)} />
-
-                        {/* Specs */}
-                        <div className="space-y-3">
-                            <Label>Specs ({locale.toUpperCase()})</Label>
-                            {translations[locale].specs.map((spec, i) => (
-                                <div key={i} className="flex gap-2">
-                                    <Input placeholder="Label" value={spec.label} onChange={(e) => {
-                                        const newSpecs = [...translations[locale].specs];
-                                        newSpecs[i] = { ...spec, label: e.target.value };
-                                        updateTranslation(locale, "specs", newSpecs);
-                                    }} className="border-vd-border bg-vd-bg-primary" />
-                                    <Input placeholder="Value" value={spec.value} onChange={(e) => {
-                                        const newSpecs = [...translations[locale].specs];
-                                        newSpecs[i] = { ...spec, value: e.target.value };
-                                        updateTranslation(locale, "specs", newSpecs);
-                                    }} className="border-vd-border bg-vd-bg-primary" />
-                                    <Button type="button" variant="ghost" size="icon" onClick={() => {
-                                        updateTranslation(locale, "specs", translations[locale].specs.filter((_, j) => j !== i));
-                                    }} className="shrink-0 text-red-400"><Trash2 className="h-4 w-4" /></Button>
+            <div className="flex flex-col gap-6 md:flex-row md:items-start">
+                {/* Main content area */}
+                <div className="flex-1 min-w-0">
+                    <LocaleTabs>
+                        {(locale) => (
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label>Title ({locale.toUpperCase()})</Label>
+                                    <Input value={translations[locale].title} onChange={(e) => updateTranslation(locale, "title", e.target.value)} className="border-vd-border bg-vd-bg-primary" required={locale === "id"} />
                                 </div>
-                            ))}
-                            <Button type="button" variant="outline" size="sm" onClick={() => {
-                                updateTranslation(locale, "specs", [...translations[locale].specs, { label: "", value: "" }]);
-                            }} className="border-vd-border"><Plus className="mr-1 h-3.5 w-3.5" />Add Spec</Button>
-                        </div>
+                                <div className="space-y-2">
+                                    <Label>Description ({locale.toUpperCase()})</Label>
+                                    <Textarea value={translations[locale].description} onChange={(e) => updateTranslation(locale, "description", e.target.value)} className="border-vd-border bg-vd-bg-primary" required={locale === "id"} />
+                                </div>
+                                <ContentEditor value={translations[locale].content as never[]} onChange={(blocks) => updateTranslation(locale, "content", blocks)} />
 
-                        {/* Tabs */}
-                        <div className="space-y-3">
-                            <Label>Usage Tabs ({locale.toUpperCase()})</Label>
-                            {translations[locale].tabs.map((tab, i) => (
-                                <div key={i} className="rounded-lg border border-vd-border p-3 space-y-2">
-                                    <div className="flex items-center gap-2">
-                                        <Input placeholder="Tab label (e.g. Host)" value={tab.label} onChange={(e) => {
-                                            const newTabs = [...translations[locale].tabs];
-                                            newTabs[i] = { ...tab, label: e.target.value };
-                                            updateTranslation(locale, "tabs", newTabs);
-                                        }} className="border-vd-border bg-vd-bg-primary" />
-                                        <Button type="button" variant="ghost" size="icon" onClick={() => {
-                                            updateTranslation(locale, "tabs", translations[locale].tabs.filter((_, j) => j !== i));
-                                        }} className="shrink-0 text-red-400"><Trash2 className="h-4 w-4" /></Button>
-                                    </div>
-                                    {tab.steps.map((step, si) => (
-                                        <div key={si} className="ml-4 space-y-1 border-l-2 border-vd-border pl-3">
-                                            <Input placeholder="Step title" value={step.title} onChange={(e) => {
-                                                const newTabs = [...translations[locale].tabs];
-                                                const newSteps = [...tab.steps];
-                                                newSteps[si] = { ...step, title: e.target.value };
-                                                newTabs[i] = { ...tab, steps: newSteps };
-                                                updateTranslation(locale, "tabs", newTabs);
-                                            }} className="border-vd-border bg-vd-bg-primary text-sm" />
-                                            <Input placeholder="Step description" value={step.description} onChange={(e) => {
-                                                const newTabs = [...translations[locale].tabs];
-                                                const newSteps = [...tab.steps];
-                                                newSteps[si] = { ...step, description: e.target.value };
-                                                newTabs[i] = { ...tab, steps: newSteps };
-                                                updateTranslation(locale, "tabs", newTabs);
-                                            }} className="border-vd-border bg-vd-bg-primary text-sm" />
-                                            <Input placeholder="Code (optional)" value={step.code ?? ""} onChange={(e) => {
-                                                const newTabs = [...translations[locale].tabs];
-                                                const newSteps = [...tab.steps];
-                                                newSteps[si] = { ...step, code: e.target.value || undefined };
-                                                newTabs[i] = { ...tab, steps: newSteps };
-                                                updateTranslation(locale, "tabs", newTabs);
-                                            }} className="border-vd-border bg-vd-bg-primary text-sm font-mono" />
+                                {/* Specs */}
+                                <div className="space-y-3">
+                                    <Label>Specs ({locale.toUpperCase()})</Label>
+                                    {translations[locale].specs.map((spec, i) => (
+                                        <div key={i} className="flex gap-2">
+                                            <Input placeholder="Label" value={spec.label} onChange={(e) => {
+                                                const newSpecs = [...translations[locale].specs];
+                                                newSpecs[i] = { ...spec, label: e.target.value };
+                                                updateTranslation(locale, "specs", newSpecs);
+                                            }} className="border-vd-border bg-vd-bg-primary" />
+                                            <Input placeholder="Value" value={spec.value} onChange={(e) => {
+                                                const newSpecs = [...translations[locale].specs];
+                                                newSpecs[i] = { ...spec, value: e.target.value };
+                                                updateTranslation(locale, "specs", newSpecs);
+                                            }} className="border-vd-border bg-vd-bg-primary" />
+                                            <Button type="button" variant="ghost" size="icon" onClick={() => {
+                                                updateTranslation(locale, "specs", translations[locale].specs.filter((_, j) => j !== i));
+                                            }} className="shrink-0 text-vd-danger"><Trash2 className="h-4 w-4" /></Button>
                                         </div>
                                     ))}
-                                    <Button type="button" variant="ghost" size="sm" onClick={() => {
-                                        const newTabs = [...translations[locale].tabs];
-                                        newTabs[i] = { ...tab, steps: [...tab.steps, { title: "", description: "" }] };
-                                        updateTranslation(locale, "tabs", newTabs);
-                                    }} className="ml-4 text-vd-accent"><Plus className="mr-1 h-3.5 w-3.5" />Add Step</Button>
+                                    <Button type="button" variant="outline" size="sm" onClick={() => {
+                                        updateTranslation(locale, "specs", [...translations[locale].specs, { label: "", value: "" }]);
+                                    }} className="border-vd-border"><Plus className="mr-1 h-3.5 w-3.5" />Add Spec</Button>
                                 </div>
-                            ))}
-                            <Button type="button" variant="outline" size="sm" onClick={() => {
-                                updateTranslation(locale, "tabs", [...translations[locale].tabs, { label: "", steps: [] }]);
-                            }} className="border-vd-border"><Plus className="mr-1 h-3.5 w-3.5" />Add Tab</Button>
+
+                                {/* Tabs */}
+                                <div className="space-y-3">
+                                    <Label>Usage Tabs ({locale.toUpperCase()})</Label>
+                                    {translations[locale].tabs.map((tab, i) => (
+                                        <div key={i} className="rounded-lg border border-vd-border p-3 space-y-2">
+                                            <div className="flex items-center gap-2">
+                                                <Input placeholder="Tab label (e.g. Host)" value={tab.label} onChange={(e) => {
+                                                    const newTabs = [...translations[locale].tabs];
+                                                    newTabs[i] = { ...tab, label: e.target.value };
+                                                    updateTranslation(locale, "tabs", newTabs);
+                                                }} className="border-vd-border bg-vd-bg-primary" />
+                                                <Button type="button" variant="ghost" size="icon" onClick={() => {
+                                                    updateTranslation(locale, "tabs", translations[locale].tabs.filter((_, j) => j !== i));
+                                                }} className="shrink-0 text-vd-danger"><Trash2 className="h-4 w-4" /></Button>
+                                            </div>
+                                            {tab.steps.map((step, si) => (
+                                                <div key={si} className="ml-4 space-y-1 border-l-2 border-vd-border pl-3">
+                                                    <Input placeholder="Step title" value={step.title} onChange={(e) => {
+                                                        const newTabs = [...translations[locale].tabs];
+                                                        const newSteps = [...tab.steps];
+                                                        newSteps[si] = { ...step, title: e.target.value };
+                                                        newTabs[i] = { ...tab, steps: newSteps };
+                                                        updateTranslation(locale, "tabs", newTabs);
+                                                    }} className="border-vd-border bg-vd-bg-primary text-sm" />
+                                                    <Input placeholder="Step description" value={step.description} onChange={(e) => {
+                                                        const newTabs = [...translations[locale].tabs];
+                                                        const newSteps = [...tab.steps];
+                                                        newSteps[si] = { ...step, description: e.target.value };
+                                                        newTabs[i] = { ...tab, steps: newSteps };
+                                                        updateTranslation(locale, "tabs", newTabs);
+                                                    }} className="border-vd-border bg-vd-bg-primary text-sm" />
+                                                    <Input placeholder="Code (optional)" value={step.code ?? ""} onChange={(e) => {
+                                                        const newTabs = [...translations[locale].tabs];
+                                                        const newSteps = [...tab.steps];
+                                                        newSteps[si] = { ...step, code: e.target.value || undefined };
+                                                        newTabs[i] = { ...tab, steps: newSteps };
+                                                        updateTranslation(locale, "tabs", newTabs);
+                                                    }} className="border-vd-border bg-vd-bg-primary text-sm font-mono" />
+                                                </div>
+                                            ))}
+                                            <Button type="button" variant="ghost" size="sm" onClick={() => {
+                                                const newTabs = [...translations[locale].tabs];
+                                                newTabs[i] = { ...tab, steps: [...tab.steps, { title: "", description: "" }] };
+                                                updateTranslation(locale, "tabs", newTabs);
+                                            }} className="ml-4 text-vd-accent"><Plus className="mr-1 h-3.5 w-3.5" />Add Step</Button>
+                                        </div>
+                                    ))}
+                                    <Button type="button" variant="outline" size="sm" onClick={() => {
+                                        updateTranslation(locale, "tabs", [...translations[locale].tabs, { label: "", steps: [] }]);
+                                    }} className="border-vd-border"><Plus className="mr-1 h-3.5 w-3.5" />Add Tab</Button>
+                                </div>
+                            </div>
+                        )}
+                    </LocaleTabs>
+                </div>
+
+                {/* Settings panel */}
+                <div className="w-full md:w-72 shrink-0 space-y-4">
+                    {/* Publish card */}
+                    <div className="rounded-lg border border-vd-border bg-vd-bg-secondary p-4 space-y-4">
+                        <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-vd-text-secondary">Publish</p>
+                        <div className="flex items-center justify-between">
+                            <Label className="cursor-pointer">Published</Label>
+                            <Switch checked={published} onCheckedChange={setPublished} />
+                        </div>
+                        <div className="flex flex-col gap-2 pt-1">
+                            <Button type="submit" disabled={loading} className="w-full bg-vd-accent text-vd-bg-primary hover:bg-vd-accent/90">
+                                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                {mode === "create" ? "Create Tool" : "Save Changes"}
+                            </Button>
+                            <Button type="button" variant="outline" onClick={() => router.push("/admin/tools")} className="w-full border-vd-border">Cancel</Button>
                         </div>
                     </div>
-                )}
-            </LocaleTabs>
 
-            <div className="flex gap-3">
-                <Button type="submit" disabled={loading} className="bg-vd-accent text-vd-bg-primary hover:bg-vd-accent/90">
-                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {mode === "create" ? "Create Tool" : "Save Changes"}
-                </Button>
-                <Button type="button" variant="outline" onClick={() => router.push("/admin/tools")} className="border-vd-border">Cancel</Button>
+                    {/* Meta card */}
+                    <div className="rounded-lg border border-vd-border bg-vd-bg-secondary p-4 space-y-3">
+                        <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-vd-text-secondary">Meta</p>
+                        <div className="space-y-2">
+                            <Label>Slug</Label>
+                            <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="platform-tools" className="border-vd-border bg-vd-bg-primary" required />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Icon (emoji)</Label>
+                            <Input value={icon} onChange={(e) => setIcon(e.target.value)} className="border-vd-border bg-vd-bg-primary" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Category</Label>
+                            <Select value={categoryId} onValueChange={setCategoryId}>
+                                <SelectTrigger className="border-vd-border bg-vd-bg-primary"><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                    {categories.map((cat) => (<SelectItem key={cat.id} value={cat.id}>{cat.key}</SelectItem>))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Sort Order</Label>
+                            <Input type="number" value={sortOrder} onChange={(e) => setSortOrder(Number(e.target.value))} className="border-vd-border bg-vd-bg-primary" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Download URL</Label>
+                            <Input value={downloadUrl} onChange={(e) => setDownloadUrl(e.target.value)} placeholder="https://..." className="border-vd-border bg-vd-bg-primary" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Version</Label>
+                            <Input value={downloadVersion} onChange={(e) => setDownloadVersion(e.target.value)} placeholder="1.0.0" className="border-vd-border bg-vd-bg-primary" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     );

@@ -42,8 +42,16 @@ export default function AdminLoginPage() {
             <div className="w-full max-w-sm space-y-6">
                 {/* Logo */}
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-vd-text-primary">
-                        versedroid<span className="text-vd-accent">.</span>
+                    <h1
+                        style={{
+                            fontFamily: "var(--font-dm-display), serif",
+                            fontSize: "1.75rem",
+                            fontWeight: 400,
+                            letterSpacing: "-0.02em",
+                            color: "var(--vd-text)",
+                        }}
+                    >
+                        versedroid<span style={{ color: "var(--vd-accent)" }}>.</span>
                     </h1>
                     <p className="mt-2 text-sm text-vd-text-secondary">
                         Admin Dashboard
@@ -56,7 +64,7 @@ export default function AdminLoginPage() {
                     className="rounded-xl border border-vd-border bg-vd-bg-secondary p-6 space-y-4"
                 >
                     {error && (
-                        <div className="flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-400">
+                        <div className="flex items-center gap-2 rounded-lg border border-vd-danger/30 bg-vd-danger-surface p-3 text-sm text-vd-danger">
                             <AlertCircle className="h-4 w-4 shrink-0" />
                             {error}
                         </div>
